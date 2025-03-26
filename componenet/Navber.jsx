@@ -66,6 +66,12 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
+          <Link href={'register'} className="btn bg-[#f9be00] text-[#033137] hover:bg-[#1cb289] hover:text-white">
+            Register
+          </Link>
+          <Link href={'login'} className="btn bg-[#f9be00] text-[#033137] hover:bg-[#1cb289] hover:text-white">
+            Login
+          </Link>
           <div className="hidden md:flex">
             <button className="border border-[#1d7261]  px-3 py-[6px] rounded-sm hover:text-white hove:bg-[#1cb289] text-white cursor-pointer">
               Login
