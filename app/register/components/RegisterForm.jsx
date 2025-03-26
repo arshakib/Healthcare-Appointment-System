@@ -1,5 +1,7 @@
 "use client";
 
+import { registerUser } from "@/app/actions/auth/registerUser";
+
 const RegisterForm = () => {
     const handleSubmit = (e)=>{
         e.preventDefault();
@@ -7,7 +9,8 @@ const RegisterForm = () => {
         const name = form.name.value;
         const email = form.email.value;
         const password = form.password.value;
-        console.log({name,email,password});
+        // console.log({name,email,password});
+        registerUser({name,email,password});
     }
     return (
         <div>
@@ -24,7 +27,7 @@ const RegisterForm = () => {
           <label className="fieldset-label">Password</label>
           <input name='password' type="password" className="input w-full" placeholder="Password" />
           
-          <button className="btn btn-neutral mt-4">Register</button>
+          <button className="btn mt-4 bg-[#f9be00] text-[#033137] hover:bg-[#1cb289] hover:text-white">Register</button>
         </form>
       </div>
     </div>

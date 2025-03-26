@@ -94,6 +94,9 @@ const Navber = () => {
           <Link href={'register'} className="btn bg-[#f9be00] text-[#033137] hover:bg-[#1cb289] hover:text-white">
             Register
           </Link>
+          <Link href={'login'} className="btn bg-[#f9be00] text-[#033137] hover:bg-[#1cb289] hover:text-white">
+            Login
+          </Link>
         </div>
       </div>
     </div>
