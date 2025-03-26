@@ -91,7 +91,7 @@ const Navber = () => {
             </ul>
           </div>
           <a className="btn bg-[#f9be00] text-[#033137] hover:bg-[#1cb289] hover:text-white">
-            Get Started
+            Log IN
           </a>
         </div>
       </div>

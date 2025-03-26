@@ -2,31 +2,40 @@ import Footer from "@/componenet/Footer";
 import HeroSection from "@/componenet/HeroSection ";
 import Navber from "@/componenet/Navber";
 import Search from "@/componenet/Search";
-import Sreen from "@/componenet/Sreen";
-import React from "react";
+import Screen from "@/componenet/Sreen";
 
-const page = () => {
+const HomePage = () => {
   return (
-    <div>
-      <div>
-        <div className="w-10/12 mx-auto mt-3">
+    <div className="min-h-screen flex flex-col">
+      {/* Navigation */}
+      <header className="w-full px-4 lg:px-0">
+        <div className="w-full lg:w-10/12 mx-auto my-4">
           <Navber />
         </div>
-        <div className=" my-7">
+      </header>
+
+      {/* Main Content */}
+      <main className="flex-grow">
+        {/* Hero Section - Full width */}
+        <section className="w-full">
           <HeroSection />
+        </section>
+
+        {/* Content Container */}
+        <div className="w-full px-4 lg:px-0">
+          <div className="w-full lg:w-10/12 mx-auto space-y-16 py-12">
+            <Search />
+            <Screen />
+          </div>
         </div>
-        <div className="w-10/12 mx-auto">
-          <Search></Search>
-        </div>
-        <div className="w-10/12 mx-auto">
-          <Sreen></Sreen>
-        </div>
-      </div>
-      <div className="mt-10">
-        <Footer></Footer>
-      </div>
+      </main>
+
+      {/* Footer - Full width */}
+      <footer className="w-full mt-20">
+        <Footer />
+      </footer>
     </div>
   );
 };
 
-export default page;
+export default HomePage;
