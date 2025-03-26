@@ -1,4 +1,5 @@
 import HeroSection from "@/componenet/HeroSection ";
+
 import Search from "@/componenet/Search";
 import Screen from "@/componenet/Sreen";
 
@@ -17,6 +18,9 @@ const HomePage = () => {
           <div className="w-full lg:w-10/12 mx-auto space-y-16 py-12">
             <Search />
             <Screen />
+          </div>
+          <div>
+            
           </div>
         </div>
       </main>
