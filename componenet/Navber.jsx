@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const Navber = () => {
@@ -90,9 +91,9 @@ const Navber = () => {
               </li>
             </ul>
           </div>
-          <a className="btn bg-[#f9be00] text-[#033137] hover:bg-[#1cb289] hover:text-white">
-            Log IN
-          </a>
+          <Link href={'register'} className="btn bg-[#f9be00] text-[#033137] hover:bg-[#1cb289] hover:text-white">
+            Register
+          </Link>
         </div>
       </div>
     </div>
