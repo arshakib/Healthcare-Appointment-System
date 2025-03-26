@@ -67,7 +67,6 @@ const Footer = () => {
             Copyright © {new Date().getFullYear()} - All rights reserved by
             MedScheduleAI LLC
             <br />
-            Team Leader is Ashiqur Rahman Shakib
           </p>
         </aside>
       </div>
