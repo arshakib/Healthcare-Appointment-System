@@ -5,7 +5,6 @@ const Footer = () => {
     <footer className="footer bg-[#033137] text-white mt-20 py-12 px-4 md:px-8">
       <div className="w-full max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-8">
-          {/* Navigation Links */}
           <nav className="grid grid-flow-col gap-6 md:gap-8">
             <a className="link link-hover text-[#1cb289] hover:text-[#f9be00] transition-colors">
               About us
@@ -20,8 +19,6 @@ const Footer = () => {
               Terms of Service
             </a>
           </nav>
-
-          {/* Social Icons */}
           <nav>
             <div className="grid grid-flow-col gap-6">
               <a className="hover:text-[#f9be00] transition-colors">
@@ -60,13 +57,12 @@ const Footer = () => {
             </div>
           </nav>
         </div>
-
-        {/* Copyright */}
         <aside className="text-center border-t border-[#1d7261] pt-8">
           <p className="text-[#1cb289]">
             Copyright © {new Date().getFullYear()} - All rights reserved by
             MedScheduleAI LLC
             <br />
+            Team Leader is Ashiqur Rahman Shakib
           </p>
         </aside>
       </div>
