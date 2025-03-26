@@ -15,7 +15,6 @@ const HomePage = () => {
             <Search />
             <Screen />
           </div>
-          <div></div>
         </div>
       </main>
     </div>
