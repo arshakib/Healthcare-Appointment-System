@@ -27,17 +27,15 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <div className="min-h-screen flex flex-col">
-          <header className="w-full px-4 lg:px-0">
-            <div className="w-full lg:w-10/12 mx-auto my-4">
               <Navber />
             </div>
-          </header>
+          
           <ToastContainer />
           {children}
           <footer className="w-full mt-20">
             <Footer />
           </footer>
-        </div>
+        
       </body>
     </html>
   );
