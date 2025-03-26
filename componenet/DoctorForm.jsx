@@ -1,6 +1,10 @@
 "use client";
 
 const DoctorForm = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
   // const doctorSchema = new mongoose.Schema({
   //     fullName: { type: String, required: true },
   //     age: { type: Number, required: true },
@@ -52,7 +56,7 @@ const DoctorForm = () => {
           <p className="text-blue-100">Join our healthcare network</p>
         </div>
 
-        <form className="p-6 space-y-6 text-black">
+        <form onSubmit={handleSubmit} className="p-6 space-y-6 text-black">
           {/* Personal Information Section */}
           <div className="space-y-4">
             <h3 className="text-lg font-medium text-gray-900 border-b pb-2">
