@@ -65,7 +65,7 @@ const Footer = () => {
         <aside className="text-center border-t border-[#1d7261] pt-8">
           <p className="text-[#1cb289]">
             Copyright © {new Date().getFullYear()} - All rights reserved by
-            MedScheduleAI
+            MedScheduleAI LLC
           </p>
         </aside>
       </div>
