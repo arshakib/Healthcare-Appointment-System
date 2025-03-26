@@ -66,6 +66,8 @@ const Footer = () => {
           <p className="text-[#1cb289]">
             Copyright © {new Date().getFullYear()} - All rights reserved by
             MedScheduleAI LLC
+            <br />
+            Team Leader is Ashiqur Rahman Shakib
           </p>
         </aside>
       </div>
