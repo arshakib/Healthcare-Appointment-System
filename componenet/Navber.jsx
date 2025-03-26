@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const Navber = () => {
@@ -32,10 +33,13 @@ const Navber = () => {
               className="menu menu-sm dropdown-content bg-[#033137] text-white rounded-box z-50 mt-3 w-52 p-2 shadow-xl"
             >
               <li>
-                <a className="hover:bg-[#1d7261]">Home</a>
+              <Link href="/" className="hover:bg-[#1d7261] rounded-lg">Home</Link>
               </li>
               <li>
                 <a className="hover:bg-[#1d7261]">Doctors</a>
+              </li>
+              <li>
+                <Link href="/patients" className="hover:bg-[#1d7261]">Patients</Link>
               </li>
               <li>
                 <a className="hover:bg-[#1d7261]">Appointments</a>
@@ -49,11 +53,14 @@ const Navber = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1 gap-2">
             <li>
-              <a className="hover:bg-[#1d7261] rounded-lg">Home</a>
+              <Link href="/" className="hover:bg-[#1d7261] rounded-lg">Home</Link>
             </li>
             <li>
               <a className="hover:bg-[#1d7261] rounded-lg">Doctors</a>
             </li>
+            <li>
+                <Link href="/patients" className="hover:bg-[#1d7261]">Patients</Link>
+              </li>
             <li>
               <a className="hover:bg-[#1d7261] rounded-lg">Appointments</a>
             </li>
