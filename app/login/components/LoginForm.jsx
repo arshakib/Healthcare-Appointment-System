@@ -1,5 +1,7 @@
 "use client";
+
 import { signIn } from "next-auth/react"
+import { toast } from "react-toastify";
 // import { useRouter } from "next/navigation";
 const LoginForm = () => {
     // const router = useRouter();
@@ -11,6 +13,7 @@ const LoginForm = () => {
 
         try {
             await signIn("credentials", {email,password, callbackUrl: '/'});
+            toast.success('Login Success')
 
             // if(response.ok){
             //     router.push('/')
