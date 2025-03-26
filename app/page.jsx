@@ -5,6 +5,7 @@ import Screen from "@/componenet/Sreen";
 const HomePage = () => {
   return (
     <div className="min-h-screen flex flex-col">
+      {/* Main Content */}
       <main className="flex-grow">
         <section className="w-full">
           <HeroSection />
