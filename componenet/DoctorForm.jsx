@@ -1,6 +1,29 @@
 "use client";
 
+import mongoose from "mongoose";
+
 const DoctorForm = () => {
+
+    // const doctorSchema = new mongoose.Schema({
+    //     fullName: { type: String, required: true },
+    //     age: { type: Number, required: true },
+    //     email: { type: String, required: true, unique: true },
+    //     phone: { type: String, required: true },
+    //     gender: { type: String, required: true, enum: ["Male", "Female", "Other"] },
+    //     address: { type: String, required: true },
+    //     bio: { type: String, required: true },
+    //     licenseNumber: { type: String, required: true, unique: true },
+    //     yearsOfExperience: { type: Number, required: true, min: 0 },
+    //     medicalDegree: { type: String, required: true },
+    //     specialty: { type: String, required: true },
+    //     currentHospital: { type: String, required: true },
+    //     hospitalAffiliation: { type: String },
+    //     patientPerDay: { type: Number, required: true, min: 1 },
+    //     consultationHours: { type: String, required: true },
+    //     availableDays: { type: [String], required: true },
+    //     profilePhoto: { type: String }, 
+    // }, { timestamps: true });
+
     const specialties = [
         'Cardiology',
         'Dermatology',
@@ -15,7 +38,7 @@ const DoctorForm = () => {
     const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
    
     return (
-        <div className=" px-4 sm:px-6 lg:px-8">
+        <div className=" px-4 sm:px-6 lg:px-8 pt-10">
             <div className="max-w-3xl mx-auto rounded-xl shadow-md overflow-hidden">
                 <div className="bg-[#033137] py-4 px-6">
                     <h2 className="text-2xl font-bold text-white">Doctor Registration Request</h2>
@@ -28,8 +51,9 @@ const DoctorForm = () => {
                         <h3 className="text-lg font-medium text-gray-900 border-b pb-2">Personal Information</h3>
 
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            {/* full name field */}
                             <div>
-                                <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
+                                <label htmlFor="fullName" className="block font-medium text-gray-700">
                                     Full Name *
                                 </label>
                                 <input
@@ -41,8 +65,9 @@ const DoctorForm = () => {
                                 />
                             </div>
 
+                             {/* age field */}
                             <div>
-                                <label htmlFor="number" className="block text-sm font-medium text-gray-700">
+                                <label htmlFor="number" className="block font-medium text-gray-700">
                                     Age *
                                 </label>
                                 <input
@@ -56,8 +81,9 @@ const DoctorForm = () => {
                         </div>
 
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            {/* email field */}
                             <div>
-                                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                                <label htmlFor="email" className="block font-medium text-gray-700">
                                     Email Address *
                                 </label>
                                 <input
@@ -69,8 +95,9 @@ const DoctorForm = () => {
                                 />
                             </div>
 
+                            {/* phone number field */}
                             <div>
-                                <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+                                <label htmlFor="phone" className="block font-medium text-gray-700">
                                     Phone Number *
                                 </label>
                                 <input
@@ -83,8 +110,9 @@ const DoctorForm = () => {
                             </div>
                         </div>
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            {/* gender filed */}
                             <div>
-                                <label htmlFor="gender" className="block text-sm font-medium text-gray-700">
+                                <label htmlFor="gender" className="block font-medium text-gray-700">
                                     Gender *
                                 </label>
                                 <select
@@ -98,9 +126,10 @@ const DoctorForm = () => {
                                     <option value="Other">Other</option>
                                 </select>
                             </div>
-
+                            
+                            {/* address field */}
                             <div>
-                                <label htmlFor="Address" className="block text-sm font-medium text-gray-700">
+                                <label htmlFor="Address" className="block font-medium text-gray-700">
                                     Address *
                                 </label>
                                 <input
@@ -113,8 +142,9 @@ const DoctorForm = () => {
                             </div>
                         </div>
 
+                        {/* textarea field */}
                         <div>
-                            <label htmlFor="bio" className="block text-sm font-medium text-gray-700">
+                            <label htmlFor="bio" className="block font-medium text-gray-700">
                                 Professional Bio *
                             </label>
                             <textarea
@@ -132,8 +162,9 @@ const DoctorForm = () => {
                         <h3 className="text-lg font-medium text-gray-900 border-b pb-2">Professional Information</h3>
 
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            {/* medical license field */}
                             <div>
-                                <label htmlFor="licenseNumber" className="block text-sm font-medium text-gray-700">
+                                <label htmlFor="licenseNumber" className="block font-medium text-gray-700">
                                     Medical License Number *
                                 </label>
                                 <input
@@ -145,8 +176,9 @@ const DoctorForm = () => {
                                 />
                             </div>
 
+                            {/* experience field */}
                             <div>
-                                <label htmlFor="yearsOfExperience" className="block text-sm font-medium text-gray-700">
+                                <label htmlFor="yearsOfExperience" className="block font-medium text-gray-700">
                                     Years of Experience *
                                 </label>
                                 <input
@@ -162,8 +194,9 @@ const DoctorForm = () => {
                         </div>
 
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            {/* medical degree field */}
                             <div>
-                                <label htmlFor="medicalDegree" className="block text-sm font-medium text-gray-700">
+                                <label htmlFor="medicalDegree" className="block font-medium text-gray-700">
                                     Medical Degree *
                                 </label>
                                 <select
@@ -181,9 +214,10 @@ const DoctorForm = () => {
                                     <option value="Other">Other</option>
                                 </select>
                             </div>
-
+                            
+                            {/* specialty field */}
                             <div>
-                                <label htmlFor="specialty" className="block text-sm font-medium text-gray-700">
+                                <label htmlFor="specialty" className="block font-medium text-gray-700">
                                     Specialty *
                                 </label>
                                 <select
@@ -200,8 +234,9 @@ const DoctorForm = () => {
                         </div>
 
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            {/* current workplace */}
                             <div>
-                                <label htmlFor="currentHospital" className="block text-sm font-medium text-gray-700">
+                                <label htmlFor="currentHospital" className="block font-medium text-gray-700">
                                     Current Workplace *
                                 </label>
                                 <input
@@ -212,9 +247,10 @@ const DoctorForm = () => {
                                     placeholder="Dhaka Medical College Hospital"
                                 />
                             </div>
-
+                            
+                            {/* affiliation field */}
                             <div>
-                                <label htmlFor="hospitalAffiliation" className="block text-sm font-medium text-gray-700">
+                                <label htmlFor="hospitalAffiliation" className="block  font-medium text-gray-700">
                                     Additional Affiliations
                                 </label>
                                 <input
@@ -227,8 +263,9 @@ const DoctorForm = () => {
                         </div>
 
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            {/* patient per day field */}
                             <div>
-                                <label htmlFor="patientPerDay" className="block text-sm font-medium text-gray-700">
+                                <label htmlFor="patientPerDay" className="block font-medium text-gray-700">
                                     Patients Per Day *
                                 </label>
                                 <input
@@ -241,9 +278,10 @@ const DoctorForm = () => {
                                     placeholder="30"
                                 />
                             </div>
-
+                            
+                            {/* hours field */}
                             <div>
-                                <label htmlFor="consultationHours" className="block text-sm font-medium text-gray-700">
+                                <label htmlFor="consultationHours" className="block  font-medium text-gray-700">
                                     Consultation Hours *
                                 </label>
                                 <input
@@ -262,7 +300,7 @@ const DoctorForm = () => {
                         <h3 className="text-lg font-medium text-gray-900 border-b pb-2">Availability</h3>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block font-medium text-gray-700 mb-2">
                                 Available Days *
                             </label>
                             <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
@@ -286,7 +324,7 @@ const DoctorForm = () => {
                         <h3 className="text-lg font-medium text-gray-900 border-b pb-2">Profile Photo</h3>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700">
+                            <label className="block font-medium text-gray-700">
                                 Upload Professional Photo
                             </label>
                             <div className="mt-1 flex items-center">
