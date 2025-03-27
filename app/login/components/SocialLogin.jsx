@@ -11,13 +11,13 @@ const SocialLogin = () => {
 // console.log(providerName);
 try {
     const response = await signIn(providerName, {redirect: false,callbackUrl: '/'});
-        //  console.log(response)
-         if(response.ok){
-                toast.success('Login Success')
-                router.push('/')
-            }else{
-                toast.error('Authentication failed')
-            }
+    if(response.ok){
+    router.push('/')
+    toast.success('Login Success')
+    }else{
+        toast.error('Authentication failed')
+    }
+        
 } catch (error) {
     toast.error(error);
 }

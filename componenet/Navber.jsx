@@ -1,13 +1,21 @@
 "use client"
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
+  const router = useRouter();
   const {data: session, status} = useSession();
   // console.log(session);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const handleLogout = ()=>{
+    toast.success('Logout Success')
+  signOut({redirect: false});
+  router.push('/login')
+  }
 
   return (
     <div className="bg-[#033137] border-b border-[#1d7261] sticky top-0 z-50 w-full">
@@ -73,7 +81,7 @@ const Navbar = () => {
           
           <div className="hidden md:flex">
             {status == 'authenticated' ? 
-            <button onClick={()=> signOut()} className="border border-[#1d7261]  px-3 py-[6px] rounded-sm hover:text-white hove:bg-[#1cb289] text-white w-full cursor-pointer">
+            <button onClick={handleLogout} className="border border-[#1d7261]  px-3 py-[6px] rounded-sm hover:text-white hove:bg-[#1cb289] text-white w-full cursor-pointer">
               Logout
             </button>
              : 
@@ -165,7 +173,7 @@ const Navbar = () => {
           {/* Mobile Login Button */}
           <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-[#1d7261]">
             {status == 'authenticated' ? 
-            <button onClick={()=> signOut()} className="border border-[#1d7261]  px-3 py-[6px] rounded-sm hover:text-white hove:bg-[#1cb289] text-white w-full cursor-pointer">
+            <button onClick={handleLogout} className="border border-[#1d7261]  px-3 py-[6px] rounded-sm hover:text-white hove:bg-[#1cb289] text-white w-full cursor-pointer">
               Logout
             </button>
              : 
