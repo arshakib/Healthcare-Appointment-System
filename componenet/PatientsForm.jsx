@@ -4,16 +4,13 @@ import React, { useState } from 'react';
 export default function PatientsForm() {
   const [formData, setFormData] = useState({
     firstName: '',
-    lastName: '',
-    dateOfBirth: '',
+    age: '',
     gender: '',
     phone: '',
     email: '',
     address: '',
     emergencyContact: '',
     emergencyPhone: '',
-    insuranceProvider: '',
-    insuranceNumber: '',
     symptoms: '',
     medicalHistory: '',
     currentMedications: '',
@@ -64,22 +61,11 @@ export default function PatientsForm() {
               />
             </div>
             <div>
-              <label className={labelStyle}>Last Name</label>
+              <label className={labelStyle}>Age</label>
               <input
-                type="text"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
-                className={inputStyle}
-                required
-              />
-            </div>
-            <div>
-              <label className={labelStyle}>Date of Birth</label>
-              <input
-                type="date"
-                name="dateOfBirth"
-                value={formData.dateOfBirth}
+                type="number"
+                name="age"
+                value={formData.age}
                 onChange={handleChange}
                 className={inputStyle}
                 required
@@ -173,40 +159,6 @@ export default function PatientsForm() {
                 type="tel"
                 name="emergencyPhone"
                 value={formData.emergencyPhone}
-                onChange={handleChange}
-                className={inputStyle}
-                required
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Insurance Information */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-indigo-100">
-          <h3 className="text-xl font-semibold text-indigo-800 mb-4 flex items-center">
-            <svg className="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"></path>
-            </svg>
-            Insurance Information
-          </h3>
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <label className={labelStyle}>Insurance Provider</label>
-              <input
-                type="text"
-                name="insuranceProvider"
-                value={formData.insuranceProvider}
-                onChange={handleChange}
-                className={inputStyle}
-                required
-              />
-            </div>
-            <div>
-              <label className={labelStyle}>Insurance Number</label>
-              <input
-                type="text"
-                name="insuranceNumber"
-                value={formData.insuranceNumber}
                 onChange={handleChange}
                 className={inputStyle}
                 required

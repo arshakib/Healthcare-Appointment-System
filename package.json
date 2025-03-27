@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "aos": "^2.3.4",
     "bcrypt": "^5.1.1",
     "daisyui": "^5.0.9",
+    "framer-motion": "^12.6.2",
     "mongodb": "^6.15.0",
     "mongoose": "^8.13.0",
     "next": "15.2.4",
