@@ -4,7 +4,7 @@ import React from "react";
 
 const Footer = () => {
   const pathname = usePathname();
-  if (pathname === "/dashboard") return null;
+  if (pathname.startsWith("/dashboard")) return null;
 
   return (
     <footer className="footer bg-[#033137] text-white mt-20 py-12 px-4 md:px-8">
