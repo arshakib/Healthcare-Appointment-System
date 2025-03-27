@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+
 @layer base {
   :root {
     /* Custom Color Palette */
