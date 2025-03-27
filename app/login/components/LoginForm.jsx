@@ -2,9 +2,9 @@
 
 import { signIn } from "next-auth/react"
 import { toast } from "react-toastify";
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 const LoginForm = () => {
-    // const router = useRouter();
+    const router = useRouter();
     const handleSubmit = async(e)=>{
         e.preventDefault();
         const form = e.target;
@@ -12,19 +12,19 @@ const LoginForm = () => {
         const password = form.password.value;
 
         try {
-            await signIn("credentials", {email,password, callbackUrl: '/'});
-            toast.success('Login Success')
+            const response = await signIn("credentials", {email,password, callbackUrl: '/', redirect: false});
 
-            // if(response.ok){
-            //     router.push('/')
-            //     form.rest();
-            // }else{
-            //     alert('authentication failed')
-            // }
+            if(response.ok){
+                toast.success('Login Success')
+                router.push('/')
+                form.rest();
+            }else{
+                toast.error('Authentication failed')
+            }
         // console.log({email,password});
         } catch (error) {
-            console.log(error);
-            alert('authentication failed')
+            toast.error(error);
+            // alert('authentication failed')
         }
         
     }

@@ -1,8 +1,11 @@
 "use client"
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useState } from "react";
 
 const Navbar = () => {
+  const {data: session, status} = useSession();
+  // console.log(session);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -159,9 +162,15 @@ const Navbar = () => {
 
           {/* Mobile Login Button */}
           <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-[#1d7261]">
-          <button className="border border-[#1d7261]  px-3 py-[6px] rounded-sm hover:text-white hove:bg-[#1cb289] text-white w-full cursor-pointer">
-              Login
+            {status == 'authenticated' ? 
+            <button onClick={()=> signOut()} className="border border-[#1d7261]  px-3 py-[6px] rounded-sm hover:text-white hove:bg-[#1cb289] text-white w-full cursor-pointer">
+              Logout
             </button>
+             : 
+             <Link href={'/login'} className="border border-[#1d7261]  px-3 py-[6px] rounded-sm hover:text-white hove:bg-[#1cb289] text-white w-full cursor-pointer">
+              Login
+            </Link>}
+          
           </div>
         </div>
 
