@@ -18,7 +18,7 @@ const Navbar = () => {
     router.push("/login");
   };
 
-  if (pathname === "/dashboard") return null;
+  if (pathname.startsWith("/dashboard")) return null;
 
   return (
     <div className="bg-[#033137] border-b border-[#1d7261] sticky top-0 z-50 w-full">
