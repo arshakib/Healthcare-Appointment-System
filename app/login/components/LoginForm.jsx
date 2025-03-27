@@ -3,6 +3,9 @@
 import { signIn } from "next-auth/react"
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import SocialLogin from "./SocialLogin";
+
 const LoginForm = () => {
     const router = useRouter();
     const handleSubmit = async(e)=>{
@@ -38,7 +41,10 @@ const LoginForm = () => {
           <input name='password' type="password" className="input w-full" placeholder="Password" />
           
           <button className="btn mt-4 bg-[#f9be00] text-[#033137] hover:bg-[#1cb289] hover:text-white">Login</button>
-        </form> 
+        </form>
+        <SocialLogin />
+        <button className="btn w-full mt-4">Are you new this page please <Link className="text-red-500" href={'/register'}>Register</Link></button>
+         
         </div>
     );
 };

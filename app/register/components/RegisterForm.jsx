@@ -1,6 +1,8 @@
 "use client";
 
 import { registerUser } from "@/app/actions/auth/registerUser";
+import SocialLogin from "@/app/login/components/SocialLogin";
+import Link from "next/link";
 
 const RegisterForm = () => {
     const handleSubmit = (e)=>{
@@ -29,6 +31,8 @@ const RegisterForm = () => {
           
           <button className="btn mt-4 bg-[#f9be00] text-[#033137] hover:bg-[#1cb289] hover:text-white">Register</button>
         </form>
+        <SocialLogin />
+        <button className="btn w-full mt-4">Already have an account please <Link className="text-red-500" href={'/login'}>Login</Link></button>
       </div>
     </div>
   </div>
