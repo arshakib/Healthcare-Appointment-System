@@ -8,6 +8,7 @@ const Navbar = () => {
   // console.log(session);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+
   return (
     <div className="bg-[#033137] border-b border-[#1d7261] sticky top-0 z-50 w-full">
       <div className="w-11/12 mx-auto text-white flex justify-between items-center py-3">
@@ -69,17 +70,18 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
-          <Link href={'register'} className="btn bg-[#f9be00] text-[#033137] hover:bg-[#1cb289] hover:text-white">
-            Register
-          </Link>
-          <Link href={'login'} className="btn bg-[#f9be00] text-[#033137] hover:bg-[#1cb289] hover:text-white">
-            Login
-          </Link>
+          
           <div className="hidden md:flex">
-            <button className="border border-[#1d7261]  px-3 py-[6px] rounded-sm hover:text-white hove:bg-[#1cb289] text-white cursor-pointer">
-              Login
+            {status == 'authenticated' ? 
+            <button onClick={()=> signOut()} className="border border-[#1d7261]  px-3 py-[6px] rounded-sm hover:text-white hove:bg-[#1cb289] text-white w-full cursor-pointer">
+              Logout
             </button>
+             : 
+             <Link href={'/login'} className="border border-[#1d7261]  px-3 py-[6px] rounded-sm hover:text-white hove:bg-[#1cb289] text-white w-full cursor-pointer">
+              Login
+            </Link>}
           </div>
+          
 
           {/* Mobile Menu Button (Replaces Login Button on Mobile) */}
           <div className="flex justify-center items-center md:hidden">
@@ -172,6 +174,7 @@ const Navbar = () => {
             </Link>}
           
           </div>
+          {/* {links()} */}
         </div>
 
         
