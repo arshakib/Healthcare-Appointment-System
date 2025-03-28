@@ -152,7 +152,6 @@ const Search = () => {
           </div>
         </div>
 
-
         {/* Search Button */}
         <div className="flex justify-center">
           <button
@@ -161,7 +160,7 @@ const Search = () => {
           >
             {loading ? "Analyzing..." : "Search by symptoms"}
           </button>
-
+        </div>
       </form>
 
       {/* Response Section */}
