@@ -25,12 +25,73 @@ const Search = () => {
               Select your Area
             </legend>
             <select className="select w-full h-14 px-4 text-[#033137] bg-white rounded-lg focus:outline-none appearance-none">
-              <option disabled className="text-[#1d7261]/50">
-                Choose your location
+              <option disabled selected className="text-[#1d7261]/50">
+                Choose your district
               </option>
-              <option>Downtown</option>
-              <option>Suburbs</option>
-              <option>Rural Area</option>
+              <option>Bagerhat</option>
+              <option>Bandarban</option>
+              <option>Barguna</option>
+              <option>Barishal</option>
+              <option>Bhola</option>
+              <option>Bogura</option>
+              <option>Brahmanbaria</option>
+              <option>Chandpur</option>
+              <option>Chattogram</option>
+              <option>Chuadanga</option>
+              <option>Cumilla</option>
+              <option>Cox's Bazar</option>
+              <option>Dhaka</option>
+              <option>Dinajpur</option>
+              <option>Faridpur</option>
+              <option>Feni</option>
+              <option>Gaibandha</option>
+              <option>Gazipur</option>
+              <option>Gopalganj</option>
+              <option>Habiganj</option>
+              <option>Jamalpur</option>
+              <option>Jashore</option>
+              <option>Jhalokati</option>
+              <option>Jhenaidah</option>
+              <option>Joypurhat</option>
+              <option>Khagrachhari</option>
+              <option>Khulna</option>
+              <option>Kishoreganj</option>
+              <option>Kurigram</option>
+              <option>Kushtia</option>
+              <option>Lakshmipur</option>
+              <option>Lalmonirhat</option>
+              <option>Madaripur</option>
+              <option>Magura</option>
+              <option>Manikganj</option>
+              <option>Meherpur</option>
+              <option>Moulvibazar</option>
+              <option>Munshiganj</option>
+              <option>Mymensingh</option>
+              <option>Naogaon</option>
+              <option>Narail</option>
+              <option>Narayanganj</option>
+              <option>Narsingdi</option>
+              <option>Natore</option>
+              <option>Nawabganj</option>
+              <option>Netrokona</option>
+              <option>Nilphamari</option>
+              <option>Noakhali</option>
+              <option>Pabna</option>
+              <option>Panchagarh</option>
+              <option>Patuakhali</option>
+              <option>Pirojpur</option>
+              <option>Rajbari</option>
+              <option>Rajshahi</option>
+              <option>Rangamati</option>
+              <option>Rangpur</option>
+              <option>Satkhira</option>
+              <option>Shariatpur</option>
+              <option>Sherpur</option>
+              <option>Sirajganj</option>
+              <option>Sunamganj</option>
+              <option>Sylhet</option>
+              <option>Tangail</option>
+              <option>Thakurgaon</option>
             </select>
           </fieldset>
         </div>
