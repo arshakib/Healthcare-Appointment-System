@@ -4,17 +4,19 @@ import React from "react";
 
 const DashboardLayout = ({ children }) => {
   return (
-    <div className="flex h-screen">
+    <div className="">
       {/* Sidebar */}
       <Sidebar />
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col">
+      <div className=" lg:ml-64">
         {/* dashboard Navbar */}
         <DashboardNav />
 
         {/* Page Content */}
-        <main className="p-4">{children}</main>
+        <div className=" bg-[#f0f3fb] min-h-[calc(100vh-61px)]">
+          {children}
+        </div>
       </div>
     </div>
   );
