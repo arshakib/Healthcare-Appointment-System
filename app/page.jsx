@@ -13,7 +13,7 @@ const HomePage = () => {
         <div className="w-full px-4 lg:px-0">
           <div className="w-full lg:w-10/12 mx-auto space-y-16 py-12">
             <Search />
-            <Screen />
+            {/* <Screen /> */}
           </div>
         </div>
       </main>
