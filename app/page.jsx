@@ -1,6 +1,5 @@
 import HeroSection from "@/componenet/HeroSection ";
 import Search from "@/componenet/Search";
-import Screen from "@/componenet/Sreen";
 
 const HomePage = () => {
   return (
