@@ -1,26 +1,107 @@
 @import "tailwindcss";
+@plugin "daisyui";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Custom Color Palette */
+    --color-primary: 3, 49, 55; /* #033137 */
+    --color-accent: 249, 190, 0; /* #f9be00 */
+    --color-secondary: 28, 178, 137; /* #1cb289 */
+    --color-tertiary: 29, 114, 97; /* #1d7261 */
+
+    /* Text Colors */
+    --color-text-primary: 3, 49, 55; /* #033137 */
+    --color-text-inverted: 255, 255, 255;
+
+    /* State Colors */
+    --color-success: 16, 185, 129;
+    --color-warning: 245, 158, 11;
+    --color-error: 239, 68, 68;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-text-primary: 237, 237, 237;
+      --color-text-inverted: 3, 49, 55;
+    }
+  }
+
+  body {
+    @apply bg-white text-[rgb(var(--color-text-primary))] font-sans;
+    font-family: "Inter", Arial, Helvetica, sans-serif;
+  }
+
+  /* Typography */
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-semibold text-[rgb(var(--color-primary))];
+  }
+
+  h1 {
+    @apply text-3xl md:text-4xl;
+  }
+  h2 {
+    @apply text-2xl md:text-3xl;
+  }
+  h3 {
+    @apply text-xl md:text-2xl;
+  }
+  h4 {
+    @apply text-lg md:text-xl;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* Buttons */
+  .btn-primary {
+    @apply bg-[rgb(var(--color-accent))] text-[rgb(var(--color-primary))] 
+           hover:bg-[rgb(var(--color-secondary))] hover:text-white
+           transition-colors duration-200 rounded-xl font-medium;
+  }
+
+  .btn-secondary {
+    @apply bg-[rgb(var(--color-secondary))] text-white
+           hover:bg-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-primary))]
+           transition-colors duration-200 rounded-xl font-medium;
+  }
+
+  /* Inputs */
+  .input-field {
+    @apply border-2 border-[rgb(var(--color-tertiary))] rounded-xl p-3
+           focus:border-[rgb(var(--color-accent))] focus:outline-none
+           transition-colors duration-200;
+  }
+
+  /* Cards */
+  .card {
+    @apply bg-white rounded-xl shadow-lg border border-[rgb(var(--color-tertiary))]/20
+           hover:shadow-xl transition-shadow duration-200;
+  }
+}
+
+/* DaisyUI Theme Configuration */
+:root {
+  --rounded-box: 1rem;
+  --rounded-btn: 0.75rem;
+  --rounded-badge: 1.9rem;
+
+  --animation-btn: 0.25s;
+  --animation-input: 0.2s;
+
+  --btn-text-case: normal;
+  --btn-focus-scale: 0.98;
+  --border-btn: 2px;
+
+  --p: 3 49 55; /* Primary */
+  --s: 28 178 137; /* Secondary */
+  --a: 249 190 0; /* Accent */
+  --n: 29 114 97; /* Neutral */
+
+  --pc: 255 255 255; /* Primary content */
+  --sc: 255 255 255; /* Secondary content */
+  --ac: 3 49 55; /* Accent content */
+  --nc: 255 255 255; /* Neutral content */
 }
