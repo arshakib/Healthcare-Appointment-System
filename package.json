@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "aos": "^2.3.4",
+    "axios": "^1.8.4",
     "bcrypt": "^5.1.1",
     "daisyui": "^5.0.9",
     "framer-motion": "^12.6.2",
