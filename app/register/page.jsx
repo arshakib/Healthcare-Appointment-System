@@ -1,10 +1,11 @@
 "use client"
 
 import Link from "next/link";
-import SocialLogin from "../login/components/SocialLogin";
+
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import SocialLogin from "@/componenet/SocialLogin";
 
 // import React from 'react';
 // import RegisterForm from './components/RegisterForm';
