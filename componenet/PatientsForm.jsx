@@ -1,47 +1,59 @@
 "use client"
-import React, { useState } from 'react';
+import { imageUploadToImgbb } from '@/app/utils/uploadImage';
+
 
 export default function PatientsForm() {
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    dateOfBirth: '',
-    gender: '',
-    phone: '',
-    email: '',
-    address: '',
-    emergencyContact: '',
-    emergencyPhone: '',
-    insuranceProvider: '',
-    insuranceNumber: '',
-    symptoms: '',
-    medicalHistory: '',
-    currentMedications: '',
-    allergies: '',
-  });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-  };
+    const form = e.target;
+    const name = form.name.value;
+    const age = form.age.value;
+    const gender = form.gender.value;
+    const photo = form.profilePhoto.files[0];
+    const profilePhoto = await imageUploadToImgbb(photo);
+    const phone = form.phone.value;
+    const email = form.email.value;
+    const address = form.address.value;
+    const emergencyContact = form.emergencyContact.value;
+    const emergencyPhone = form.emergencyPhone.value;
+    const symptoms = form.symptoms.value;
+    const currentMedications = form.currentMedications.value;
+    const medicalHistory = form.medicalHistory.value;
+    const allergies = form.allergies.value;
 
-  const inputStyle = "w-full p-3 border border-indigo-200 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-black bg-white placeholder-gray-400";
+    const patientFormData = {
+      name,
+      age,
+      gender,
+      profilePhoto,
+      phone,
+      email,
+      address,
+      emergencyContact,
+      emergencyPhone,
+      symptoms,
+      currentMedications,
+      medicalHistory,
+      allergies
+  }
+  console.log(patientFormData)
+
+
+
+  }
+
+
+
+  const inputStyle = "w-full p-3 border border-indigo-200 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-transparent text-black bg-white placeholder-gray-400";
   const labelStyle = "block text-sm font-medium text-indigo-900 mb-1";
 
   return (
     <div className="max-w-4xl mx-auto bg-gradient-to-br from-indigo-50 to-white rounded-xl shadow-lg my-8">
-     <div className='bg-[#033137] py-6 rounded-t-2xl'>
-     <h2 className="text-3xl font-bold text-center text-white mb-8">Patients Admission Form</h2>
-     </div>
-      
+      <div className='bg-[#033137] py-6 rounded-t-2xl'>
+        <h2 className="text-3xl font-bold text-center text-white mb-8">Patients Admission Form</h2>
+      </div>
+
       <form onSubmit={handleSubmit} className="space-y-8">
         {/* Personal Information */}
         <div className="bg-white p-6 rounded-lg shadow-sm border border-indigo-100">
@@ -53,34 +65,19 @@ export default function PatientsForm() {
           </h3>
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <label className={labelStyle}>First Name</label>
+              <label className={labelStyle}>Name</label>
               <input
                 type="text"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
+                name="name"
                 className={inputStyle}
                 required
               />
             </div>
             <div>
-              <label className={labelStyle}>Last Name</label>
+              <label className={labelStyle}>Age</label>
               <input
-                type="text"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
-                className={inputStyle}
-                required
-              />
-            </div>
-            <div>
-              <label className={labelStyle}>Date of Birth</label>
-              <input
-                type="date"
-                name="dateOfBirth"
-                value={formData.dateOfBirth}
-                onChange={handleChange}
+                type="number"
+                name="age"
                 className={inputStyle}
                 required
               />
@@ -89,8 +86,6 @@ export default function PatientsForm() {
               <label className={labelStyle}>Gender</label>
               <select
                 name="gender"
-                value={formData.gender}
-                onChange={handleChange}
                 className={inputStyle}
                 required
               >
@@ -99,6 +94,22 @@ export default function PatientsForm() {
                 <option value="female">Female</option>
                 <option value="other">Other</option>
               </select>
+            </div>
+
+            <div>
+              <label className={labelStyle}>
+                Upload Professional Photo
+              </label>
+              <div className="">
+                <input
+                  type="file"
+                  name="profilePhoto"
+                  accept="image/*"
+                  className={inputStyle}/>
+              </div>
+              <p className="mt-1 text-sm text-gray-500">
+                A professional headshot (JPEG or PNG, max 5MB)
+              </p>
             </div>
           </div>
         </div>
@@ -117,8 +128,6 @@ export default function PatientsForm() {
               <input
                 type="tel"
                 name="phone"
-                value={formData.phone}
-                onChange={handleChange}
                 className={inputStyle}
                 required
               />
@@ -128,8 +137,6 @@ export default function PatientsForm() {
               <input
                 type="email"
                 name="email"
-                value={formData.email}
-                onChange={handleChange}
                 className={inputStyle}
                 required
               />
@@ -139,8 +146,6 @@ export default function PatientsForm() {
             <label className={labelStyle}>Address</label>
             <textarea
               name="address"
-              value={formData.address}
-              onChange={handleChange}
               className={`${inputStyle} h-24`}
               required
             />
@@ -161,8 +166,6 @@ export default function PatientsForm() {
               <input
                 type="text"
                 name="emergencyContact"
-                value={formData.emergencyContact}
-                onChange={handleChange}
                 className={inputStyle}
                 required
               />
@@ -172,42 +175,6 @@ export default function PatientsForm() {
               <input
                 type="tel"
                 name="emergencyPhone"
-                value={formData.emergencyPhone}
-                onChange={handleChange}
-                className={inputStyle}
-                required
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Insurance Information */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-indigo-100">
-          <h3 className="text-xl font-semibold text-indigo-800 mb-4 flex items-center">
-            <svg className="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"></path>
-            </svg>
-            Insurance Information
-          </h3>
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <label className={labelStyle}>Insurance Provider</label>
-              <input
-                type="text"
-                name="insuranceProvider"
-                value={formData.insuranceProvider}
-                onChange={handleChange}
-                className={inputStyle}
-                required
-              />
-            </div>
-            <div>
-              <label className={labelStyle}>Insurance Number</label>
-              <input
-                type="text"
-                name="insuranceNumber"
-                value={formData.insuranceNumber}
-                onChange={handleChange}
                 className={inputStyle}
                 required
               />
@@ -228,8 +195,6 @@ export default function PatientsForm() {
               <label className={labelStyle}>Current Symptoms</label>
               <textarea
                 name="symptoms"
-                value={formData.symptoms}
-                onChange={handleChange}
                 className={`${inputStyle} h-24`}
                 required
               />
@@ -238,8 +203,6 @@ export default function PatientsForm() {
               <label className={labelStyle}>Medical History</label>
               <textarea
                 name="medicalHistory"
-                value={formData.medicalHistory}
-                onChange={handleChange}
                 className={`${inputStyle} h-24`}
                 required
               />
@@ -248,8 +211,6 @@ export default function PatientsForm() {
               <label className={labelStyle}>Current Medications</label>
               <textarea
                 name="currentMedications"
-                value={formData.currentMedications}
-                onChange={handleChange}
                 className={`${inputStyle} h-24`}
               />
             </div>
@@ -257,8 +218,6 @@ export default function PatientsForm() {
               <label className={labelStyle}>Allergies</label>
               <textarea
                 name="allergies"
-                value={formData.allergies}
-                onChange={handleChange}
                 className={`${inputStyle} h-24`}
               />
             </div>

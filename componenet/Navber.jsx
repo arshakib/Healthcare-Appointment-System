@@ -1,12 +1,24 @@
-"use client"
+"use client";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
-  const {data: session, status} = useSession();
-  // console.log(session);
+  const router = useRouter();
+  const { data: session, status } = useSession();
+  console.log(session);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  const handleLogout = () => {
+    toast.success("Logout Success");
+    signOut({ redirect: false });
+    router.push("/login");
+  };
+
+  if (pathname.startsWith("/dashboard")) return null;
 
   return (
     <div className="bg-[#033137] border-b border-[#1d7261] sticky top-0 z-50 w-full">
@@ -28,12 +40,25 @@ const Navbar = () => {
               <a className="hover:text-[#f9be00] rounded-lg">Doctors</a>
             </li>
             <li>
-              <Link href="/patients" className="hover:text-[#f9be00] rounded-lg">
+              <Link
+                href="/patients"
+                className="hover:text-[#f9be00] rounded-lg"
+              >
                 Patients
               </Link>
             </li>
             <li>
               <a className="hover:text-[#f9be00] rounded-lg">Appointments</a>
+            </li>
+            <li>
+              <Link href="/about" className="hover:text-[#f9be00] rounded-lg">
+                About
+              </Link>
+            </li>
+            <li>
+              <Link href="/contact" className="hover:text-[#f9be00] rounded-lg">
+                Contact
+              </Link>
             </li>
           </ul>
         </div>
@@ -69,16 +94,23 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
-          <Link href={'register'} className="btn bg-[#f9be00] text-[#033137] hover:bg-[#1cb289] hover:text-white">
-            Register
-          </Link>
-          <Link href={'login'} className="btn bg-[#f9be00] text-[#033137] hover:bg-[#1cb289] hover:text-white">
-            Login
-          </Link>
+
           <div className="hidden md:flex">
-            <button className="border border-[#1d7261]  px-3 py-[6px] rounded-sm hover:text-white hove:bg-[#1cb289] text-white cursor-pointer">
-              Login
-            </button>
+            {status == "authenticated" ? (
+              <button
+                onClick={handleLogout}
+                className="border border-[#1d7261]  px-3 py-[6px] rounded-sm hover:text-white hove:bg-[#1cb289] text-white w-full cursor-pointer"
+              >
+                Logout
+              </button>
+            ) : (
+              <Link
+                href={"/login"}
+                className="border border-[#1d7261]  px-3 py-[6px] rounded-sm hover:text-white hove:bg-[#1cb289] text-white w-full cursor-pointer"
+              >
+                Login
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button (Replaces Login Button on Mobile) */}
@@ -107,8 +139,9 @@ const Navbar = () => {
 
         {/* Mobile Sidebar */}
         <div
-          className={`fixed top-0 right-0 h-full w-64 bg-[#033137]  transform ${isMenuOpen ? "translate-x-0" : "translate-x-full"
-            } transition-transform duration-300 ease-in-out z-50 md:hidden border-l border-[#1d7261]`}
+          className={`fixed top-0 right-0 h-full w-64 bg-[#033137]  transform ${
+            isMenuOpen ? "translate-x-0" : "translate-x-full"
+          } transition-transform duration-300 ease-in-out z-50 md:hidden border-l border-[#1d7261]`}
         >
           <div className="flex justify-between items-center p-4 border-b border-[#1d7261]">
             <span className="text-xl text-[#f9be00]">Menu</span>
@@ -156,25 +189,31 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <a className="hover:text-[#f9be00] rounded-lg py-2">Appointments</a>
+              <a className="hover:text-[#f9be00] rounded-lg py-2">
+                Appointments
+              </a>
             </li>
           </ul>
 
           {/* Mobile Login Button */}
           <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-[#1d7261]">
-            {status == 'authenticated' ? 
-            <button onClick={()=> signOut()} className="border border-[#1d7261]  px-3 py-[6px] rounded-sm hover:text-white hove:bg-[#1cb289] text-white w-full cursor-pointer">
-              Logout
-            </button>
-             : 
-             <Link href={'/login'} className="border border-[#1d7261]  px-3 py-[6px] rounded-sm hover:text-white hove:bg-[#1cb289] text-white w-full cursor-pointer">
-              Login
-            </Link>}
-          
+            {status == "authenticated" ? (
+              <button
+                onClick={handleLogout}
+                className="border border-[#1d7261]  px-3 py-[6px] rounded-sm hover:text-white hove:bg-[#1cb289] text-white w-full cursor-pointer"
+              >
+                Logout
+              </button>
+            ) : (
+              <Link
+                href={"/login"}
+                className="border border-[#1d7261]  px-3 py-[6px] rounded-sm hover:text-white hove:bg-[#1cb289] text-white w-full cursor-pointer"
+              >
+                Login
+              </Link>
+            )}
           </div>
         </div>
-
-        
       </div>
     </div>
   );
