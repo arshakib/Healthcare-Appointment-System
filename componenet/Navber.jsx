@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 const Navbar = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
-  // console.log(session);
+  console.log(session);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
 
