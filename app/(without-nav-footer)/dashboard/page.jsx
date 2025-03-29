@@ -1,12 +1,27 @@
-import React from 'react';
+import DoctorDashboard from "@/componenet/DoctorDashboard";
+import PatientDashboard from "@/componenet/PatientDashboard";
 
-const DashboardPage = () => {
-    return (
-        <div className='text-black'>
-            <h1 className="text-2xl font-bold">Dashboard</h1>
-            <p>Welcome to the admin panel.</p>
-        </div>
-    );
-};
 
-export default DashboardPage;
+export default function Dashboard() {
+  const role = "doctor";
+  return (
+    <>
+
+      {role === "doctor" ?
+        <>
+          {/* appointment table */}
+          <div className="px-4 py-10">
+            <DoctorDashboard />
+          </div>
+        </>
+        :
+        <>
+          <div className="px-4 py-10">
+            <PatientDashboard/>
+          </div>
+        </>}
+
+
+    </>
+  );
+}
