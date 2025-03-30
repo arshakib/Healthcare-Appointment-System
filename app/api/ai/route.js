@@ -1,7 +1,12 @@
 // app/api/ai/route.js
 
+import { connectToDatabase } from "@/app/lib/db";
+import Doctor from "@/models/doctor";
+
 export async function POST(req) {
   try {
+    // Connect to the database
+    await connectToDatabase();
     // Parse the JSON body
     const body = await req.json();
     const { symptom, area } = body;
@@ -15,7 +20,7 @@ export async function POST(req) {
       );
     }
 
-    console.log({ symptom, area });
+    // console.log({ symptom, area });
     // Construct the prompt
     const prompt = `
   Symptom: ${symptom}
@@ -24,7 +29,7 @@ export async function POST(req) {
   {
     "prescription": "Recommended medication and dosage",
     "specialist": "Select among these specialist 
-Allergy and Immunology,
+ Allergy and Immunology,
 Anesthesiology,
 Endocrinology,
 Gastroenterology,
@@ -44,8 +49,16 @@ Urology,
 Geriatrics (Elderly Care),
 Emergency Medicine,
 Pain Management,
-Sleep Medicine to consult .
-any one specialist and you mut put that specialist name in double quotation marks.",
+Sleep Medicine,
+Cardiology,
+Dermatology,
+Neurology,
+Pediatrics,
+Orthopedics,
+General Practice,
+Oncology,
+Psychiatry.
+any one specialist will be selected",
   }
   Disclaimer: This is for informational purposes only and not a substitute for professional medical advice.
 `;
@@ -77,10 +90,32 @@ any one specialist and you mut put that specialist name in double quotation mark
     try {
       // Clean the response - remove markdown code blocks and trim whitespace
       const cleanedContent = content.replace(/```json|```/g, "").trim();
-      console.log("Cleaned content:", cleanedContent); // For debugging
+      // console.log("Cleaned content:", cleanedContent); // For debugging
+      const aiResult = JSON.parse(cleanedContent);
+      const { specialist } = aiResult;
 
-      const result = JSON.parse(cleanedContent);
-      return new Response(JSON.stringify(result), { status: 200 });
+      if (specialist) {
+        // Query the database for doctors matching the specialist
+        const doctors = await Doctor.find({
+          specialty: { $regex: new RegExp(specialist, "i") },
+          address: { $regex: new RegExp(area, "i") },
+        });
+
+        // console.log("Doctors found:", doctors);
+
+        // Merge the AI result with the doctors' information
+        const combinedResult = { ...aiResult, doctors };
+        console.log("Combined result:", combinedResult); // For debugging
+        return new Response(JSON.stringify(combinedResult), { status: 200 });
+      } else {
+        return new Response(
+          JSON.stringify({ error: "Specialist not found in AI response" }),
+          { status: 500 }
+        );
+      }
+
+      // const result = JSON.parse(cleanedContent);
+      // return new Response(JSON.stringify(result), { status: 200 });
     } catch (parseError) {
       console.error("JSON Parse Error:", parseError);
       return new Response(
