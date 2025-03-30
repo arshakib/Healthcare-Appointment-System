@@ -36,3 +36,20 @@ export async function POST(request) {
     return NextResponse.json({ message: "Error saving data" }, { status: 500 });
   }
 }
+
+
+// all doctor data get from mongodb database
+
+export async function GET(){
+  try{
+    await connectToDatabase();
+    const allDoctorData = await Doctor.find().lean();
+    
+    return NextResponse.json(allDoctorData,{status: 200});
+
+  }catch(err){
+    console.log("Data loading failed",err);
+    return NextResponse.json(err, {status: 500})
+  }
+
+}
