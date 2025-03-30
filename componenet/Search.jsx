@@ -6,6 +6,7 @@ const Search = () => {
   const [response, setResponse] = useState({
     prescription: "",
     specialist: "",
+    doctors: [],
   });
   const [loading, setLoading] = useState(false);
 
@@ -40,6 +41,7 @@ const Search = () => {
       setResponse({
         prescription: data.prescription || "No prescription available",
         specialist: data.specialist || "Consult a general physician",
+        doctors: data.doctors || [],
       });
     } catch (err) {
       console.error(err);
@@ -48,6 +50,8 @@ const Search = () => {
 
     setLoading(false);
   };
+
+  console.log("Response:", response); // Log the response state
   return (
     <div className="w-full px-4 md:px-8 lg:w-10/12 mx-auto mt-16">
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -86,7 +90,7 @@ const Search = () => {
                 <option>Bagerhat</option>
                 <option>Bandarban</option>
                 <option>Barguna</option>
-                <option>Barishal</option>
+                <option>Barisal</option>
                 <option>Bhola</option>
                 <option>Bogura</option>
                 <option>Brahmanbaria</option>
@@ -239,6 +243,78 @@ const Search = () => {
                                 </span>
                               </div>
                             )
+                        )}
+                      </div>
+                    )}
+
+                    {/* Doctors Section */}
+                    {response.doctors && (
+                      <div className="bg-[#f8fafc] p-6 rounded-lg border border-[#1d7261]/20">
+                        <h3 className="text-2xl font-bold text-[#033137] mb-4">
+                          Recommended Doctors
+                        </h3>
+                        {response.doctors.length > 0 ? (
+                          response.doctors.map((doctor, index) => (
+                            <div
+                              className="card card-side shadow-lg mt-4 transition-all duration-300 hover:shadow-xl"
+                              style={{
+                                backgroundColor: "#033137",
+                                border: "2px solid #1d7261",
+                                borderRadius: "1rem",
+                              }}
+                              key={index}
+                            >
+                              <figure className="pl-4">
+                                <img
+                                  src={doctor.profilePhoto}
+                                  alt="Doctor"
+                                  className="w-24 h-24 rounded-full border-4"
+                                  style={{ borderColor: "#f9be00" }}
+                                />
+                              </figure>
+                              <div className="card-body py-4">
+                                <h2
+                                  className="card-title text-2xl"
+                                  style={{ color: "#f9be00" }}
+                                >
+                                  {doctor.fullName}
+                                </h2>
+                                <p
+                                  className="text-lg mb-2"
+                                  style={{ color: "#1cb289" }}
+                                >
+                                  {doctor.specialty}
+                                </p>
+                                <div className="card-actions justify-end">
+                                  <button
+                                    className="btn font-bold tracking-wide"
+                                    style={{
+                                      backgroundColor: "#1d7261",
+                                      color: "white",
+                                      border: "none",
+                                      borderRadius: "0.5rem",
+                                      padding: "0.5rem 2rem",
+                                      transition: "all 0.3s ease",
+                                    }}
+                                    onMouseOver={(e) =>
+                                      (e.target.style.backgroundColor =
+                                        "#1cb289")
+                                    }
+                                    onMouseOut={(e) =>
+                                      (e.target.style.backgroundColor =
+                                        "#1d7261")
+                                    }
+                                  >
+                                    Book Appointment
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          ))
+                        ) : (
+                          <p className="text-lg text-[#1d7261]">
+                            No doctors found for the selected specialty.
+                          </p>
                         )}
                       </div>
                     )}
