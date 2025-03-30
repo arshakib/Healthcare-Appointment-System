@@ -1,9 +1,12 @@
 "use client";
 
+import axios from "axios";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 
 const DoctorsPage = () => {
+  const [allDoctorData, setAllDoctorData] = useState([]);
   // Enhanced static doctor data with more professional details
   const doctorsData = [
     {
@@ -97,7 +100,22 @@ const DoctorsPage = () => {
       consultationFee: '৳2,000'
     },
   ];
-  
+
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        const res = await axios.get("/api/doctordata");
+        setAllDoctorData(res.data);
+      } catch (error) {
+        console.error("Error fetching doctor data:", error);
+      }
+    };
+
+    fetchDoctors();
+  }, []);
+
+  console.log(allDoctorData)
+
 
   return (
     <div className=" py-10">
@@ -126,7 +144,7 @@ const DoctorsPage = () => {
                 </div>
                 <input type="text" id="search"
                   placeholder="Search by name, specialty..."
-                  className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"/>
+                  className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
               </div>
             </div>
 
@@ -205,13 +223,13 @@ const DoctorsPage = () => {
               <button
                 type="button"
                 className={`px-3 py-1.5 rounded-full text-sm font-medium `}>
-                  {/* {availabilityFilter === 'all' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800 hover:bg-gray-200'} */}
+                {/* {availabilityFilter === 'all' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800 hover:bg-gray-200'} */}
                 All
               </button>
               <button
                 type="button"
                 className={`px-3 py-1.5 rounded-full text-sm font-medium `}>
-                  {/* {availabilityFilter === 'available' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800 hover:bg-gray-200'} */}
+                {/* {availabilityFilter === 'available' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800 hover:bg-gray-200'} */}
                 Available Now
               </button>
             </div>
@@ -239,15 +257,15 @@ const DoctorsPage = () => {
         </div>
 
         {/* Doctor Cards */}
-        {doctorsData?.length > 0 ? (
+        {allDoctorData?.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {doctorsData?.map((doctor) => (
-              <div key={doctor.id} className=" rounded-md shadow-sm  overflow-hidden hover:shadow-md transition-all duration-300 group">
+            {allDoctorData?.map((doctor) => (
+              <div key={doctor?._id} className=" rounded-md shadow-sm  overflow-hidden hover:shadow-md transition-all duration-300 group">
                 <div className="relative">
                   {/* Doctor Image */}
                   <div className="h-[350px] flex items-center justify-center overflow-hidden">
                     <div className="w-full h-full ">
-                      <Image src={doctor?.image} width={56} height={56} alt="doctor image" className="w-full h-full object-cover" />
+                      <Image src={doctor?.profilePhoto} width={56} height={56} alt="doctor image" className="w-full h-full object-cover" />
                     </div>
                   </div>
 
@@ -259,24 +277,24 @@ const DoctorsPage = () => {
                   </button>
 
                   {/* Availability Badge */}
-                  <div className={`absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-semibold ${doctor.available ? 'bg-green-100 text-[#033137]' : 'bg-red-100 text-red-800'}`}>
+                  {/* <div className={`absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-semibold ${doctor.available ? 'bg-green-100 text-[#033137]' : 'bg-red-100 text-red-800'}`}>
                     {doctor.available ? 'Available Today' : 'Available ' + doctor.nextAvailable}
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="p-5">
                   {/* Doctor Name and Rating */}
                   <div className="flex justify-between items-start mb-3">
                     <div>
-                      <h2 className="text-xl font-bold text-gray-900 group-hover:text-[#033137] transition-colors duration-300">{doctor.name}</h2>
+                      <h2 className="text-xl font-bold text-gray-900 group-hover:text-[#033137] transition-colors duration-300">{doctor.fullName}</h2>
                       <p className="text-[#033137] font-medium">{doctor?.specialty}</p>
                     </div>
                     <div className="flex items-center bg-blue-50 px-2.5 py-1 rounded-lg">
                       <svg className="w-4 h-4 text-yellow-500 mr-1" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                       </svg>
-                      <span className="text-sm font-semibold">{doctor.rating}</span>
-                      <span className="text-xs text-gray-500 ml-1">({doctor.reviews})</span>
+                      <span className="text-sm font-semibold">76</span>
+                      <span className="text-xs text-gray-500 ml-1">(86)</span>
                     </div>
                   </div>
 
@@ -285,7 +303,7 @@ const DoctorsPage = () => {
                     <svg className="w-4 h-4 mr-2 mt-0.5 flex-shrink-0 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    {doctor.education}
+                    {doctor?.medicalDegree}
                   </p>
 
                   {/* Location */}
@@ -294,17 +312,17 @@ const DoctorsPage = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
-                    {doctor.location}
+                    {doctor?.address}
                   </p>
 
                   {/* Languages */}
-                  <div className="flex flex-wrap gap-2 mb-4">
+                  {/* <div className="flex flex-wrap gap-2 mb-4">
                     {doctor.languages.map((language, index) => (
                       <span key={index} className="px-2 py-1 bg-gray-100 text-gray-800 text-xs rounded-full">
                         {language}
                       </span>
                     ))}
-                  </div>
+                  </div> */}
 
                   {/* Divider */}
                   <div className="border-t border-gray-100 my-4"></div>
@@ -313,7 +331,7 @@ const DoctorsPage = () => {
                   <div className="flex justify-between items-center">
                     <div>
                       <p className="text-xs text-gray-500">Consultation Fee</p>
-                      <p className="text-lg font-bold text-gray-900">{doctor.consultationFee}</p>
+                      <p className="text-lg font-bold text-gray-900">34545</p>
                     </div>
                     <button className="px-4 py-2.5 bg-[#033137] text-white text-sm font-medium rounded-md transition-colors duration-300 flex items-center">
                       Book Now
@@ -341,7 +359,7 @@ const DoctorsPage = () => {
             </button>
           </div>
         )}
-       
+
       </div>
     </div>
   );

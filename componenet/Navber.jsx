@@ -37,7 +37,7 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link href="/doctor" className="hover:text-[#f9be00] rounded-lg">Doctors</Link>
+              <Link href="/allDoctor" className="hover:text-[#f9be00] rounded-lg">Doctors</Link>
             </li>
             <li>
               <Link
