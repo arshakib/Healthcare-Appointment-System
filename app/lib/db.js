@@ -1,14 +1,33 @@
 
+// import mongoose from "mongoose";
+
+// export const connectToDatabase = async()=>{
+//     try {
+//         await mongoose.connect(process.env.MONGODB_URI)
+//         console.log('connect to db');
+//     } catch (error) {
+//         console.log(error)
+//     }
+// }
+
+
 import mongoose from "mongoose";
-// const {DB_USER, DB_PUSS} = process.env;
 
-// export const connectToDatabase = "mongodb+srv://"+DB_USER+":"+DB_PUSS+"@cluster0.9njqe.mongodb.net/team-project?appName=Cluster0";
+const MONGODB_URI = process.env.MONGODB_URI;
 
-export const connectToDatabase = async()=>{
+export const connectToDatabase = async () => {
     try {
-        await mongoose.connect(process.env.MONGODB_URI)
-        console.log('connect to db');
+        if (mongoose.connection.readyState === 1) {
+            return mongoose.connection.asPromise();
+        }
+
+        await mongoose.connect(MONGODB_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+
+        console.log("MongoDB Connected!");
     } catch (error) {
-        console.log(error)
+        console.error("MongoDB Connection Error:", error);
     }
-}
+};
