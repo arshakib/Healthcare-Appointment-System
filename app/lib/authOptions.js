@@ -1,7 +1,10 @@
-import { loginUser } from "@/app/actions/auth/loginUser";
+// import { loginUser } from "@/app/actions/auth/loginUser";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import dbConnect, { collectionNameObj } from "./dbConnect";
+import { connectToDatabase } from "./db";
+import User from "@/models/user";
+import bcrypt from 'bcrypt';
 // import GitHubProvider from "next-auth/providers/github";
 
 export const authOptions = {
@@ -15,24 +18,38 @@ export const authOptions = {
           // e.g. domain, username, password, 2FA token, etc.
           // You can pass any HTML attribute to the <input> tag through the object.
           credentials: {
-            email: { label: "Email", type: "email", placeholder: "Enter Email" },
-            password: { label: "Password", type: "password" }
+            // email: { label: "Email", type: "email", placeholder: "Enter Email" },
+            // password: { label: "Password", type: "password" }
           },
-          async authorize(credentials, req) {
-            console.log(credentials);
-            // Add logic here to look up the user from the credentials supplied
-            const user = await loginUser(credentials);
-            console.log(user);
-      
-            if (user) {
-              // Any object returned will be saved in `user` property of the JWT
-              return user
-            } else {
-              // If you return null then an error will be displayed advising the user to check their details.
-              return null
-      
-              // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
+          async authorize(credentials) {
+            const {email, password} = credentials;
+            try {
+                await connectToDatabase();
+                const user = await User.findOne({email})
+                if(!user){
+                    return null
+                }
+                const passwordMatch = await bcrypt.compare(password, user.password)
+                if(!passwordMatch){
+                    return null
+                }
+                return user;
+            } catch (error) {
+                console.log(error)
             }
+            // Add logic here to look up the user from the credentials supplied
+            // const user = await loginUser(credentials);
+            // console.log(user);
+      
+            // if (user) {
+            //   // Any object returned will be saved in `user` property of the JWT
+            //   return user
+            // } else {
+            //   // If you return null then an error will be displayed advising the user to check their details.
+            //   return null
+      
+            //   // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
+            // }
           }
         }),
         GoogleProvider({
@@ -44,6 +61,7 @@ export const authOptions = {
         //   clientSecret: process.env.GITHUB_SECRET
         // })
       ],
+      secret: process.env.NEXTAUTH_SECRET,
       pages: {
         signIn: '/login'
       },
