@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 
@@ -333,12 +334,14 @@ const DoctorsPage = () => {
                       <p className="text-xs text-gray-500">Consultation Fee</p>
                       <p className="text-lg font-bold text-gray-900">34545</p>
                     </div>
-                    <button className="px-4 py-2.5 bg-[#033137] text-white text-sm font-medium rounded-md transition-colors duration-300 flex items-center">
-                      Book Now
-                      <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                      </svg>
-                    </button>
+                    <Link href={`/allDoctor/${doctor?._id}`}>
+                      <button className="px-4 py-2.5 bg-[#033137] text-white text-sm font-medium rounded-md transition-colors duration-300 flex items-center">
+                        Book Now
+                        <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                      </button>
+                    </Link>
                   </div>
                 </div>
               </div>

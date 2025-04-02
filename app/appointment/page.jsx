@@ -4,11 +4,11 @@ import React, { useState } from "react";
 import Image from "next/image";
 
 const DoctorAppointment = () => {
-  const [selectedDate, setSelectedDate] = useState(1);
-  const [selectedSlot, setSelectedSlot] = useState("11:30 AM");
+  // const [selectedDate, setSelectedDate] = useState(1);
+  // const [selectedSlot, setSelectedSlot] = useState("11:30 AM");
 
-  const dates = [1, 2, 3, 4, 5, 7, 8]; // Example dates
-  const slots = ["11:30 AM", "11:45 AM", "12:00 PM", "12:15 PM", "12:30 PM"];
+  // const dates = [1, 2, 3, 4, 5, 7, 8]; // Example dates
+  // const slots = ["11:30 AM", "11:45 AM", "12:00 PM", "12:15 PM", "12:30 PM"];
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -44,7 +44,7 @@ const DoctorAppointment = () => {
       <div className="bg-white p-6 rounded-lg shadow-md max-w-4xl mx-auto mt-6">
         <h3 className="text-lg text-black font-semibold">Select Date</h3>
         <div className="flex gap-3 mt-3">
-          {dates.map((date) => (
+          {/* {dates.map((date) => (
             <button
               key={date}
               className={`px-4 py-2 rounded-lg ${
@@ -54,12 +54,12 @@ const DoctorAppointment = () => {
             >
               {`Tue ${date}`}
             </button>
-          ))}
+          ))} */}
         </div>
 
         <h3 className="text-lg text-black font-semibold mt-6">Available Slots</h3>
         <div className="flex gap-3 mt-3">
-          {slots.map((slot) => (
+          {/* {slots.map((slot) => (
             <button
               key={slot}
               className={`px-4 py-2 rounded-lg ${
@@ -69,7 +69,7 @@ const DoctorAppointment = () => {
             >
               {slot}
             </button>
-          ))}
+          ))} */}
         </div>
 
         <button className="mt-6 w-full bg-blue-600 text-white py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition">
