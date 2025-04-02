@@ -5,10 +5,10 @@ import Image from "next/image";
 import doctorImg from "@/public/about-us-img-1.jpg";
 
 const DoctorAppointment = () => {
-  const [selectedDate, setSelectedDate] = useState(1);
-  const [selectedSlot, setSelectedSlot] = useState("11:30 AM");
+  // const [selectedDate, setSelectedDate] = useState(1);
+  // const [selectedSlot, setSelectedSlot] = useState("11:30 AM");
 
-  const dates = [1, 2, 3, 4, 5, 7, 8];
+  const dates = [1, 2, 3, 4, 5, 7, 8]; // Example dates
   const slots = ["11:30 AM", "11:45 AM", "12:00 PM", "12:15 PM", "12:30 PM"];
 
   return (
@@ -54,9 +54,9 @@ const DoctorAppointment = () => {
       </div>
 
       {/* Appointment Booking Section */}
-      <div className="bg-white p-8 rounded-2xl shadow-lg max-w-4xl mx-auto mt-8 animate-slideUp">
-        <h3 className="text-xl font-bold text-[#033137] mb-4">Select Date</h3>
-        <div className="flex gap-3 overflow-x-auto pb-4">
+      <div className="bg-white p-6 rounded-lg shadow-md max-w-4xl mx-auto mt-6">
+        <h3 className="text-lg text-black font-semibold">Select Date</h3>
+        <div className="flex gap-3 mt-3">
           {dates.map((date) => (
             <button
               key={date}
@@ -75,13 +75,11 @@ const DoctorAppointment = () => {
                 Tue {date}
               </span>
             </button>
-          ))}
+          ))} 
         </div>
 
-        <h3 className="text-xl font-bold text-[#033137] mt-8 mb-4">
-          Available Slots
-        </h3>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+        <h3 className="text-lg text-black font-semibold mt-6">Available Slots</h3>
+        <div className="flex gap-3 mt-3">
           {slots.map((slot) => (
             <button
               key={slot}
