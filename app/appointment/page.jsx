@@ -75,7 +75,7 @@ const DoctorAppointment = () => {
                 Tue {date}
               </span>
             </button>
-          ))} */}
+          ))} 
         </div>
 
         <h3 className="text-lg text-black font-semibold mt-6">Available Slots</h3>
@@ -92,7 +92,7 @@ const DoctorAppointment = () => {
             >
               {slot}
             </button>
-          ))} */}
+          ))}
         </div>
 
         <button
