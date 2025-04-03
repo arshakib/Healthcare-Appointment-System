@@ -53,7 +53,7 @@ const Search = () => {
 
   console.log("Response:", response); // Log the response state
   return (
-    <div className="w-full px-4 md:px-8 lg:w-10/12 mx-auto mt-16">
+    <div id="search-section" className="w-full px-4 md:px-8 lg:w-10/12 mx-auto mt-16">
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-8">
           {/* Symptoms Input */}

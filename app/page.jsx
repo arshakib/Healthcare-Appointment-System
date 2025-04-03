@@ -1,5 +1,8 @@
+import FaqSection from "@/componenet/FaqSection";
 import HeroSection from "@/componenet/HeroSection ";
+import OurDoctor from "@/componenet/OurDoctor";
 import Search from "@/componenet/Search";
+import StatsCounter from "@/componenet/StatsCounter";
 
 const HomePage = () => {
   return (
@@ -9,7 +12,7 @@ const HomePage = () => {
         <section className="w-full">
           <HeroSection />
         </section>
-        <div className="w-full px-4 lg:px-0">
+        <div className="w-full ">
           <div className="w-full lg:w-10/12 mx-auto space-y-16 py-12">
             <Search />
             {/* <Screen /> */}
@@ -26,6 +29,9 @@ const HomePage = () => {
               height="600"
             ></iframe> */}
           </div>
+          <OurDoctor/>
+          <StatsCounter/>
+          <FaqSection/>
         </div>
       </main>
     </div>
