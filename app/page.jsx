@@ -13,6 +13,18 @@ const HomePage = () => {
           <div className="w-full lg:w-10/12 mx-auto space-y-16 py-12">
             <Search />
             {/* <Screen /> */}
+            {/* 
+            <iframe
+              className="w-full lg:w-10/12 mx-auto"
+              src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3Ec0Ww-2zc-rRratBCxZilrTZJP_W8sMx-6MT3rikY5ahiNPMcjXoBGaRnoXVZ80lA1jtjfCZA?gv=true"
+              height="1000"
+            ></iframe>
+
+            <iframe
+              src="https://calendar.google.com/calendar/embed?src=atking2240%40gmail.com&ctz=Asia%2FDhaka"
+              width="800"
+              height="600"
+            ></iframe> */}
           </div>
         </div>
       </main>
