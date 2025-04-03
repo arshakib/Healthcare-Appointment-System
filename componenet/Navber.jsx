@@ -48,9 +48,6 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <a className="hover:text-[#f9be00] rounded-lg">Appointments</a>
-            </li>
-            <li>
               <Link href="/about" className="hover:text-[#f9be00] rounded-lg">
                 About
               </Link>
