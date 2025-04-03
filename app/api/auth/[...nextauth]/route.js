@@ -12,6 +12,7 @@ import bcrypt from "bcrypt";
 
 import { connectToDatabase } from "@/app/lib/db";
 import User from "@/models/user";
+// import dbConnect, { collectionNameObj } from "@/app/lib/dbConnect";
 
 export const authOptions = {
     providers: [
@@ -42,41 +43,81 @@ export const authOptions = {
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         }),
     ],
+    // callbacks: {
+    //     async signIn({ user,account }) {
+    //         console.log(user,account) 
+    //         await connectToDatabase();
+    //         if(account.provider === 'google'){
+    //             const {name,email,image} = user;
+    //             try {
+    //                 const res = await fetch('http://localhost:3000/api/register', {
+    //                     method: 'POST',
+    //                     headers: {
+    //                         'Content-Type': 'application/json'
+    //                     },
+    //                     body: JSON.stringify({
+    //                         name,email,image
+    //                     })
+    //                 })
+    //                 if(res.ok){
+    //                     console.log("User registered successfully");
+    //                     return user
+    //                 }else{
+    //                     throw new Error("Failed to register user in MongoDB");
+    //                 }
+    //             } catch (error) {
+    //                 console.log("Error in sign-in callback:", error);
+    //             return null;
+    //             }
+    //         }
+    //         return user;  
+    //     },
+        
+    // },
+
     secret: process.env.NEXTAUTH_SECRET,
     // session: {
     //     strategy: "jwt",
     // },
-    // callbacks: {
-    //     async signIn({ user }) {
-    //         await connectToDatabase();
-    //         try {
-    //             const existingUser = await User.findOne({ email: user.email });
-
-    //             if (!existingUser) {
-    //                 const newUser = new User({
-    //                     name: user.name,
-    //                     email: user.email,
-    //                     image: user.image,
-    //                 });
-    //                 await newUser.save();
-    //             }
-    //             return true;
-    //         } catch (error) {
-    //             console.error("Error saving user:", error);
-    //             return false;
-    //         }
-    //     },
-    //     async session({ session }) {
-    //         await connectToDatabase();
-    //         const dbUser = await User.findOne({ email: session.user.email });
-    //         session.user.id = dbUser._id;
-    //         return session;
-    //     },
-    // },
     
     pages: {
         signIn: "/login",
-    }
+    },
+
+    // callbacks: {
+    //         async signIn({ user, account }) {
+    //             // console.log({ user, account, profile, email, credentials });
+    //             if(account){
+    //                 const {providerAccountId, provider} = account
+    //                 const {email: user_email, image, name} = user
+
+    //                 // await connectToDatabase();
+    //                 // const isExist = await User.findOne({ providerAccountId });
+    //                 // let existingUser = await User.findOne({ email });
+    //                 // if(!existingUser){
+    //                 //     existingUser = new User({
+    //                 //         providerAccountId,
+    //                 //         provider,
+    //                 //         email,
+    //                 //         image,
+    //                 //         name,
+    //                 //     });
+    //                 //     await existingUser.save();
+    //                 // }else {
+    //                 //     console.log("User already exists in MongoDB!");
+    //                 // }
+
+    //                 const userCollection = dbConnect(collectionNameObj.userCollection)
+    //                 const isExist = await userCollection.findOne({providerAccountId})
+                    
+    //                 if(!isExist){
+    //                     const payload = {providerAccountId,provider,email:user_email,image,name}
+    //                     await userCollection.insertOne(payload)
+    //                 }
+    //                 return true
+    //             }
+    //           },
+    //       }
 };
 
 const handler = NextAuth(authOptions);

@@ -7,7 +7,9 @@ import User from "@/models/user";
 
 export async function POST(request) {
     try {
-        const { name, email, password } = await request.json();
+        const body =  await request.json();
+        console.log('body',body)
+        const { name, email, role, password } = body;
         await connectToDatabase();
 
         const existingUser = await User.findOne({ email });
@@ -16,10 +18,13 @@ export async function POST(request) {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = await User.create({ name, email, password: hashedPassword });
+        const newUser = new User({ name, email, role, password: hashedPassword });
+console.log('new user',newUser)
+        await newUser.save();
 
         return NextResponse.json({ message: "User registered successfully", user: newUser }, { status: 201 });
     } catch (error) {
+        console.error("🔥 Registration Error:", error);
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }
