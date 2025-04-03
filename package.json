@@ -17,6 +17,7 @@
     "daisyui": "^5.0.9",
     "dotenv": "^16.4.7",
     "framer-motion": "^12.6.2",
+    "lucide-react": "^0.487.0",
     "moment": "^2.30.1",
     "moment-timezone": "^0.5.48",
     "mongodb": "^6.15.0",
@@ -28,7 +29,8 @@
     "react-big-calendar": "^1.18.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
-    "react-toastify": "^11.0.5"
+    "react-toastify": "^11.0.5",
+    "swiper": "^11.2.6"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
