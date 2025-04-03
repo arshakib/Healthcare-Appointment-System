@@ -264,12 +264,13 @@ const DoctorsPage = () => {
                   {doctor?.profilePhoto && (
                     <div className="">
                       <Image
-                        src={doctor?.profilePhoto}
+
+                        src={doctor?.profilePhoto || "/doctor.jpg"}
                         width={200}
-                        height={150}
-                        alt={`Dr. ${doctor.fullName}`}
-                        className="object-cover rounded-md w-full h-[180px]"
-                        unoptimized
+                        height={200}
+                        alt="doctor image"
+                        className="w-full h-full object-cover"
+
                       />
                     </div>
                   )}
@@ -302,8 +303,18 @@ const DoctorsPage = () => {
                   <Link href={`/allDoctor/${doctor?._id}`}>
                       <button className="px-4 py-2 bg-[#033137] text-white text-sm font-medium rounded-md transition-colors duration-300 flex items-center cursor-pointer">
                         Book Now
-                        <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        <svg
+                          className="w-4 h-4 ml-2"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M14 5l7 7m0 0l-7 7m7-7H3"
+                          />
                         </svg>
                       </button>
                     </Link>
