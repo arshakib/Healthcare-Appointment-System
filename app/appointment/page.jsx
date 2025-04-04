@@ -2,6 +2,13 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import {
+  FaMapMarkerAlt,
+  FaCalendarAlt,
+  FaClock,
+  FaPhone,
+  FaStar,
+} from "react-icons/fa";
 import doctorImg from "@/public/about-us-img-1.jpg";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
@@ -10,6 +17,7 @@ const DoctorAppointment = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState("");
   const [bookedSlots, setBookedSlots] = useState([]);
+  const [doctorData, setDoctorData] = useState(null);
 
   const startTime = 9; // 9 AM
   const endTime = 18; // 6 PM
@@ -32,6 +40,22 @@ const DoctorAppointment = () => {
     }
     return options;
   };
+
+  useEffect(() => {
+    try {
+      fetch(`http://localhost:3000/api/doctordata/67e8dfafaeabd2b198951478`)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Response from server:", data);
+          setDoctorData(data);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   useEffect(() => {
     try {
@@ -84,53 +108,80 @@ const DoctorAppointment = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] p-6">
+    <div className="py-10 px-4 max-w-7xl mx-auto">
       {/* Doctor Info Section */}
-      <div className="bg-white p-8 rounded-2xl shadow-lg max-w-4xl mx-auto flex gap-8 transform transition-all duration-300 hover:shadow-xl border-2 border-[#1cb289]/20">
-        <div className="w-1/3 relative group">
-          <div className="absolute inset-0 bg-[#1cb289] rounded-xl opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
-          <Image
-            src={doctorImg}
-            alt="Doctor Image"
-            className="rounded-xl transform transition-transform duration-500 hover:scale-105 object-cover h-full"
-          />
-        </div>
+      <div className="bg-white rounded-xl shadow-md overflow-hidden flex flex-col md:flex-row">
+        {/* Doctor Image */}
+        {doctorData?.profilePhoto && (
+          <div className="md:w-1/3 p-6 flex justify-center">
+            <div className="relative w-64 h-64 rounded-lg overflow-hidden">
+              <Image
+                src={doctorData?.profilePhoto}
+                fill
+                alt={`Dr. ${doctorData?.fullName}`}
+                className="object-cover"
+                unoptimized
+              />
+            </div>
+          </div>
+        )}
 
-        <div className="flex-1 space-y-4">
-          <h2 className="text-3xl font-bold text-[#033137] animate-fadeIn">
-            Dr. Ajit Kumar Surin
-            <span className="block text-lg mt-2 text-[#f9be00]">
-              ⭐ 4.9 (120 Reviews)
-            </span>
-          </h2>
-          <div className="space-y-2">
-            <p className="text-[#1cb289] font-medium bg-[#1cb289]/10 px-3 py-1 rounded-full w-fit">
-              16+ Years Experience
-            </p>
-            <p className="text-[#1d7261] font-semibold">
-              MD (Medicine), PDF in Clinical Immunology and Rheumatology
-            </p>
-            <div className="border-l-4 border-[#f9be00] pl-3 mt-3">
-              <p className="text-[#1d7261]">
-                Languages: English | Hindi | Bangla | Oriya
-              </p>
-              <p className="text-[#033137] font-semibold mt-2">
-                Apollo Hospitals, Bhubaneswar
-              </p>
-              <p className="text-[#1d7261]">
-                Plot No. 251, Sainik School Road, Unit 15, Bhubaneswar, OD,
-                751005
+        {/* Doctor Details */}
+        <div className=" p-6">
+          <div className="flex justify-between items-start">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-800">
+                Dr. {doctorData?.fullName}
+              </h1>
+              <p className="text-blue-600 font-medium">
+                {doctorData?.specialty}
               </p>
             </div>
-            <a
-              href="#"
-              className="inline-flex items-center text-[#1cb289] hover:text-[#1d7261] transition-colors duration-300 mt-3 group"
-            >
-              <span className="mr-2">Get Hospital Directions</span>
-              <span className="group-hover:translate-x-1 transition-transform">
-                →
-              </span>
-            </a>
+            <div className="flex items-center bg-blue-50 px-3 py-1 rounded-full">
+              <FaStar className="text-yellow-400 mr-1" />
+              <span className="font-semibold text-black">4.9</span>
+            </div>
+          </div>
+
+          <div className="mt-4 flex items-center text-gray-600">
+            <FaMapMarkerAlt className="mr-2" />
+            <span>{doctorData?.currentHospital}</span>
+          </div>
+
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <h3 className="text-lg font-semibold text-gray-700">
+                Qualifications
+              </h3>
+              <p className="text-gray-600">{doctorData?.medicalDegree}</p>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-gray-700">
+                Experience
+              </h3>
+              <p className="text-gray-600">
+                {doctorData?.yearsOfExperience}+ years
+              </p>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-gray-700">Hospital</h3>
+              <p className="text-gray-600">{doctorData?.hospitalAffiliation}</p>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-gray-700">Languages</h3>
+              <p className="text-gray-600">English, Hindi, Bangla</p>
+            </div>
+          </div>
+
+          <div className="mt-6 pt-4 border-t">
+            <h3 className="text-lg font-semibold text-gray-700 mb-2">About</h3>
+            <p className="text-gray-600">
+              Dr. {doctorData?.fullName} is a renowned {doctorData?.specialty}{" "}
+              with extensive experience in {doctorData?.specialty.toLowerCase()}{" "}
+              care.
+              {doctorData?.bio ||
+                "Committed to providing the highest quality care to all patients."}
+            </p>
           </div>
         </div>
       </div>

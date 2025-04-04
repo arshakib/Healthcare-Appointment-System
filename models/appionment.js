@@ -6,9 +6,32 @@ const appointmentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    selectedTime: { type: String, required: true },
+    selectedTime: {
+      type: String,
+      required: true,
+    },
+    patientName: {
+      type: String,
+      required: true,
+    },
+    patientEmail: {
+      type: String,
+      required: true,
+      match: /.+\@.+\..+/,
+    },
+    doctorName: {
+      type: String,
+      required: true,
+    },
+    doctorEmail: {
+      type: String,
+      required: true,
+      match: /.+\@.+\..+/,
+    },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 const Appointment =

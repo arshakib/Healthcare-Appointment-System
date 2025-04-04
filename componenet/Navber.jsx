@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 const Navbar = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
-  console.log(session, status);
+  console.log("session data", session, status);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
 
@@ -37,7 +37,12 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link href="/allDoctor" className="hover:text-[#f9be00] rounded-lg">Doctors</Link>
+              <Link
+                href="/allDoctor"
+                className="hover:text-[#f9be00] rounded-lg"
+              >
+                Doctors
+              </Link>
             </li>
             <li>
               <Link

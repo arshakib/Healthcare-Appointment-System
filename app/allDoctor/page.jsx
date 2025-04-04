@@ -14,6 +14,7 @@ const DoctorsPage = () => {
       try {
         const res = await axios.get("/api/doctordata");
         setAllDoctorData(res.data);
+        // console.log(res.data);
       } catch (error) {
         console.error("Error fetching doctor data:", error);
       }
@@ -84,13 +85,7 @@ const DoctorsPage = () => {
                 <select
                   id="specialty"
                   className="appearance-none block w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 pr-8"
-                >
-                  {/* {specialties?.map((specialty) => (
-                    <option key={specialty} value={specialty}>
-                      {specialty === 'all' ? 'All Specialties' : specialty}
-                    </option>
-                  ))} */}
-                </select>
+                ></select>
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                   <svg
                     className="h-5 w-5 text-gray-400"
@@ -121,13 +116,7 @@ const DoctorsPage = () => {
                 <select
                   id="location"
                   className="appearance-none block w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 pr-8"
-                >
-                  {/* {locations.map((location) => (
-                    <option key={location} value={location}>
-                      {location === 'all' ? 'All Locations' : location}
-                    </option>
-                  ))} */}
-                </select>
+                ></select>
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                   <svg
                     className="h-5 w-5 text-gray-400"
@@ -147,40 +136,6 @@ const DoctorsPage = () => {
             </div>
 
             {/* Sort Option */}
-            <div>
-              <label
-                htmlFor="sort"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Sort By
-              </label>
-              <div className="relative">
-                <select
-                  id="sort"
-                  className="appearance-none block w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 pr-8"
-                >
-                  <option value="rating-desc">Highest Rating</option>
-                  <option value="experience-desc">Most Experienced</option>
-                  <option value="fee-asc">Price: Low to High</option>
-                  <option value="fee-desc">Price: High to Low</option>
-                </select>
-                <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                  <svg
-                    className="h-5 w-5 text-gray-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* Availability Filter */}
@@ -193,14 +148,12 @@ const DoctorsPage = () => {
                 type="button"
                 className={`px-3 py-1.5 rounded-full text-sm font-medium `}
               >
-                {/* {availabilityFilter === 'all' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800 hover:bg-gray-200'} */}
                 All
               </button>
               <button
                 type="button"
                 className={`px-3 py-1.5 rounded-full text-sm font-medium `}
               >
-                {/* {availabilityFilter === 'available' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800 hover:bg-gray-200'} */}
                 Available Now
               </button>
             </div>
