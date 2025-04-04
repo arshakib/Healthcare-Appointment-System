@@ -63,7 +63,7 @@ export const authOptions = {
   //                         'Content-Type': 'application/json'
   //                     },
   //                     body: JSON.stringify({
-  //                         name,email,image
+  //                         name,email,image,role:'patient',password: ''
   //                     })
   //                 })
   //                 if(res.ok){
@@ -81,6 +81,63 @@ export const authOptions = {
   //     },
 
   // },
+
+  callbacks: {
+    async signIn({ user, account }) {
+      console.log("🔥 User Info:", user);
+      console.log("🔥 Account Info:", account);
+
+      await connectToDatabase();
+
+      if (account.provider === "google") {
+        const { name, email, image } = user;
+        try {
+          // Check if the user already exists
+          const existingUser = await User.findOne({ email });
+
+          if (!existingUser) {
+            // If user doesn't exist, create new user
+            const res = await fetch("http://localhost:3000/api/register", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                name,
+                email,
+                image,
+                role: "patient", // Default role for Google users
+              }),
+            });
+
+            if (!res.ok) {
+              throw new Error("Failed to register user in MongoDB");
+            }
+
+            console.log("🚀 New Google User Registered!");
+          } else {
+            console.log("✅ User already exists in DB.");
+          }
+
+          return true; // Allow sign-in
+        } catch (error) {
+          console.log("❌ Error in sign-in callback:", error);
+          return false; // Prevent sign-in on error
+        }
+      }
+
+      return true; // Allow sign-in for other providers
+    },
+  },
+
+  secret: process.env.NEXTAUTH_SECRET,
+  // session: {
+  //     strategy: "jwt",
+  // },
+
+  pages: {
+    signIn: "/login",
+  },
 
   secret: process.env.NEXTAUTH_SECRET,
   // session: {
