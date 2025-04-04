@@ -1,6 +1,10 @@
+"use client";
+import { useSession } from "next-auth/react";
 import React from "react";
 
 const HeroSection = () => {
+  const { data: session } = useSession();
+  console.log(session);
   return (
     <section className="relative bg-[#033137] text-white overflow-hidden">
       {/* Decorative elements */}
