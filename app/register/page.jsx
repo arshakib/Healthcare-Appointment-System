@@ -25,7 +25,7 @@ const Register = () => {
         });
 
         if (response.ok) {
-            router.push("/");
+            router.push("/login");
             toast.success('Registered Successfully!')
         }
     };
