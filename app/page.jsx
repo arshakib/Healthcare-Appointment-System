@@ -29,9 +29,9 @@ const HomePage = () => {
               height="600"
             ></iframe> */}
           </div>
-          <OurDoctor/>
-          <StatsCounter/>
-          <FaqSection/>
+          <OurDoctor />
+          <StatsCounter />
+          <FaqSection />
         </div>
       </main>
     </div>
