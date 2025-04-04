@@ -1,7 +1,7 @@
 "use client";
 
-import { signIn } from "next-auth/react";
-import { useState } from "react";
+import { signIn, useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "react-toastify";
@@ -11,6 +11,7 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const router = useRouter();
+    const { data: session, status } = useSession();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -20,11 +21,22 @@ const Login = () => {
             redirect: false
         });
 
-        if (!result.error) {
+        if (result.ok) {
             router.push("/");
             toast.success('Login Successfully!')
+        }else{
+          toast.error('Login Failed. Please check your credentials.');
         }
     };
+
+    useEffect(()=>{
+      if (session) {
+        router.push("/");
+    }
+    if(status === "unauthenticated"){
+      toast.dismiss();
+    }
+    },[session, router, status])
 
     return (
         
@@ -53,7 +65,9 @@ const Login = () => {
             Login
           </button>
         </form>
-        <SocialLogin /> 
+        <div>
+        <SocialLogin />
+        </div> 
         <button className="btn w-full mt-4">
           Are you new this page please{" "}
           <Link className="text-red-500" href={"/register"}>

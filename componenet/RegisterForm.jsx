@@ -1,45 +1,52 @@
 "use client";
 
+import { registerUser } from "@/app/actions/auth/registerUser";
 // import { registerUser } from "@/app/actions/auth/registerUser";
 // import axios from "axios";
 import SocialLogin from "@/componenet/SocialLogin";
 import Link from "next/link";
-import { useState } from "react";
+// import { useState } from "react";
 
 const RegisterForm = () => {
-  const [name,setName]=useState('');
-  const [email,setEmail]=useState('');
-  const [password,setPassword]=useState('');
-  const [error, setError] = useState('');
+  // const [name,setName]=useState('');
+  // const [email,setEmail]=useState('');
+  // const [password,setPassword]=useState('');
+  // const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const form = e.target;
+    const name = form.name.value;
+    const email = form.email.value;
+    const password = form.password.value;
+    await registerUser({name,email,password})
+    // console.log({name,email,password})
     
-    if(!name || !email || !password){
-      setError('All Field are required')
-      return
-    }
-    try {
-      // const res = await axios.post('api/register',{name,email,password})
-      const res = await fetch('api/register', {
-        method: "POST",
-        headers: {
-          'Connect-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name,email,password
-        })
-      })
+    // if(!name || !email || !password){
+    //   setError('All Field are required')
+    //   return
+    // }
+    // try {
+    //   // const res = await axios.post('api/register',{name,email,password})
+    //   const res = await fetch('api/register', {
+    //     method: "POST",
+    //     headers: {
+    //       'Connect-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({
+    //       name,email,password
+    //     })
+    //   })
 
-      if(res.ok){
-        const form = e.target;
-        form.reset();
-      }else{
-        console.log('registration failed')
-      }
-    } catch (error) {
-      console.log(error)
-    }
+    //   if(res.ok){
+    //     const form = e.target;
+    //     form.reset();
+    //   }else{
+    //     console.log('registration failed')
+    //   }
+    // } catch (error) {
+    //   console.log(error)
+    // }
     
     // registerUser({ name, email, password });
   };
@@ -53,7 +60,6 @@ const RegisterForm = () => {
               <form onSubmit={handleSubmit} className="fieldset">
                 <label className="fieldset-label">Name</label>
                 <input
-                onChange={(e)=> setName(e.target.value)}
                   name="name"
                   type="text"
                   className="input w-full"
@@ -61,7 +67,6 @@ const RegisterForm = () => {
                 />
                 <label className="fieldset-label">Email</label>
                 <input
-                onChange={(e)=> setEmail(e.target.value)}
                   name="email"
                   type="email"
                   className="input w-full"
@@ -69,7 +74,6 @@ const RegisterForm = () => {
                 />
                 <label className="fieldset-label">Password</label>
                 <input
-                onChange={(e)=> setPassword(e.target.value)}
                   name="password"
                   type="password"
                   className="input w-full"
@@ -79,7 +83,7 @@ const RegisterForm = () => {
                   Register
                 </button>
 
-                {error && <p className="text-red-500">{error}</p>}
+                
               </form>
               <SocialLogin />
               <button className="btn w-full mt-4">
