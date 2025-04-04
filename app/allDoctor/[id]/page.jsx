@@ -278,6 +278,9 @@ const DoctorAppointment = () => {
                 commitments or emergencies that could affect the appointment
                 time.
               </p>
+              <p className="text-red-800 text-sm">
+                Alert: Friday and Saturday are off days
+              </p>
             </div>
 
             <button
