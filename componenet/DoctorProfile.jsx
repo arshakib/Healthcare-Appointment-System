@@ -1,16 +1,45 @@
-import { FiMail, FiPhone, FiMapPin, FiUser, FiSettings } from 'react-icons/fi';
+"use client";
 
 import Image from 'next/image';
 import { FaUser } from 'react-icons/fa';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useSession } from 'next-auth/react';
 
 const DoctorProfile = () => {
+    const [doctorData, setDoctorData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const {data: session} = useSession();
+
+  useEffect(() => {
+    const fetchDoctorData = async () => {
+      try {
+        
+        const response = await axios.get(`/api/doctordata?email=${session?.user?.email}`);
+        setDoctorData(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching doctor data", error);
+        setLoading(false);
+      }
+    };
+
+    fetchDoctorData();
+  }, [session?.user?.email]);
+
+  if (loading) return <div className='text-gray-800'>Loading...</div>;
+  if (!doctorData) return <div className='text-gray-800'>No doctor data available.</div>;
+
+  const singleDoctor = doctorData[0];
+  console.log(singleDoctor)
+
     return (
         <div className='lg:flex gap-4 space-y-10 lg:space-y-0'>
             {/* Left Side - Profile Overview */}
-            <div className="lg:max-w-[400px]">
+            <div className="lg:w-[300px]">
                 <div className="bg-[#212529] h-[150px]">
                     <div className='text-white text-center pt-6 h-full'>
-                        <h2 className="text-xl font-bold ">DR. John Smith</h2>
+                        <h2 className="text-xl font-bold ">{singleDoctor?.fullName}</h2>
                         <p className="text-sm">Senior Doctor</p>
                     </div>
                 </div>
@@ -20,13 +49,14 @@ const DoctorProfile = () => {
                             className="w-[110px] h-[110px] rounded-full border-2 border-white -mt-[60px]"
                             width={96}
                             height={96}
-                            src="/self3.jpg"
+                            src={singleDoctor?.profilePhoto}
+                           
                             alt="Profile"
                         />
                     </div>
                     <div className="text-center mt-3 px-6">
                         <p className="text-gray-600 text-sm">
-                            456, Estern Avenue, Courtage Area, New York
+                            {singleDoctor?.address}
                         </p>
                         <p className="mt-6 text-gray-700 font-semibold flex items-center justify-center">
                             264-625-2583
@@ -65,23 +95,21 @@ const DoctorProfile = () => {
 
                 <div className="mt-6">
                     <div className="grid grid-cols-2 gap-4 text-gray-600 mt-4">
-                        <p><span className="font-semibold">Full Name:</span> Emily Smith</p>
-                        <p><span className="font-semibold">Mobile:</span> (123) 456 7890</p>
-                        <p><span className="font-semibold">Email:</span> johndeo@example.com</p>
-                        <p><span className="font-semibold">Location:</span> India</p>
+                        <p><span className="font-semibold">Full Name:</span> {singleDoctor?.fullName}</p>
+                        <p><span className="font-semibold">Mobile:</span> {singleDoctor?.phone}</p>
+                        <p><span className="font-semibold">Email:</span>{singleDoctor?.email}</p>
+                        <p><span className="font-semibold">Location:</span>{singleDoctor?.address}</p>
                     </div>
 
                     <p className="text-gray-700  mt-6">
-                        Completed my graduation in Arts from the well known and renowned institution of India –
-                        SARDAR PATEL ARTS COLLEGE, BARODA in 2000-01, which was affiliated to M.S. University. SARDAR PATEL ARTS COLLEGE, BARODA in 2000-01, which was affiliated to M.S. University. SARDAR PATEL ARTS COLLEGE, BARODA in 2000-01, which was affiliated to M.S. University. SARDAR PATEL ARTS COLLEGE, BARODA in 2000-01, which was affiliated to M.S. University. SARDAR PATEL ARTS COLLEGE, BARODA in 2000-01, which was affiliated to M.S. University. SARDAR PATEL ARTS COLLEGE, BARODA in 2000-01, which was affiliated to M.S. University.
+                        {singleDoctor?.bio}
                     </p>
 
                     {/* education */}
-                    <h3 className="text-lg font-semibold mt-6 text-gray-800">Education</h3>
+                    <h3 className="text-lg font-semibold mt-6 text-gray-800">medicalDegree</h3>
                     <ul className="list-disc text-gray-800 mt-4 ">
-                        <p>M.B.B.S., Gujarat University, Ahmedabad, India.</p>
-                        <p>M.S., Gujarat University, Ahmedabad, India.</p>
-                        <p>SPINAL FELLOWSHIP Dr. John Adam, Germany.</p>
+                        <p><span>{singleDoctor?.medicalDegree}</span> | <span>{singleDoctor?.specialty}</span></p> 
+                        
                     </ul>
 
                     {/* experience */}

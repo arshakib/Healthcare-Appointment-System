@@ -1,10 +1,12 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { FiHome, FiBell, FiUser, FiLogOut, FiSearch, FiMenu, FiCalendar, FiPlus } from "react-icons/fi";
 
 
 const DashboardNav = () => {
+    const {data: session} = useSession();
     
     return (
         <header className="sticky top-0  w-full h-[61px] bg-white border-b">
@@ -33,7 +35,7 @@ const DashboardNav = () => {
 
                     <div className="flex gap-2">
                         <div className="">
-                            <Image src="/self3.jpg" width={10} height={10} alt="profile" className="rounded-full w-10 h-10" />
+                            {session?.user?.image && <Image src={session?.user?.image} width={10} height={10} alt="profile" className="rounded-full w-10 h-10" />}
                         </div>
                         <div className="">
                             <p className="text-sm font-medium text-gray-800">Dr. Sarah</p>

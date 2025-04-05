@@ -1,18 +1,39 @@
+"use client";
+import axios from "axios";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { FaFilePdf } from "react-icons/fa";
 
-const appointments = [
-  { id: 1, name: "Angelica", gender: "Female", date: "12/05/2016", disease: "Typhoid", color: "border-purple-400 text-purple-600" },
-  { id: 2, name: "Ashton", gender: "Female", date: "12/05/2016", disease: "Malaria", color: "border-orange-400 text-orange-600" },
-  { id: 3, name: "Cara", gender: "Male", date: "12/05/2016", disease: "Infection", color: "border-cyan-400 text-cyan-600" },
-  { id: 4, name: "Michael", gender: "Male", date: "12/06/2016", disease: "Flu", color: "border-blue-400 text-blue-600" },
-  { id: 5, name: "Emily", gender: "Female", date: "12/07/2016", disease: "Pneumonia", color: "border-red-400 text-red-600" },
-  { id: 6, name: "David", gender: "Male", date: "12/08/2016", disease: "Diabetes", color: "border-green-400 text-green-600" },
-  { id: 7, name: "Olivia", gender: "Female", date: "12/09/2016", disease: "Asthma", color: "border-purple-400 text-purple-600" },
-  { id: 8, name: "James", gender: "Male", date: "12/10/2016", disease: "Hypertension", color: "border-orange-400 text-orange-600" },
-];
 
 export default function DoctorDashboard() {
+  const {data} = useSession();
+  const doctorEmail = data?.user?.email;
+  const [appointments, setAppointments] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      try {
+        if (!doctorEmail) return;
+        const res = await axios.get(`/api/appointment?doctorEmail=${doctorEmail}`);
+        setAppointments(res.data);
+      } catch (error) {
+        console.error('Error fetching appointments:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAppointments();
+  }, [doctorEmail]);
+
+  if (loading) return <p>Loading...</p>;
+
+  // console.log(appointments)
+
+
+
   return (
     <>
       <div className="">
@@ -23,7 +44,7 @@ export default function DoctorDashboard() {
             <div className="lg:flex-1 space-y-3 w-full py-8">
               <p className="text-gray-500 text-lg">Welcome back</p>
               <h2 className="text-2xl font-bold text-blue-600">
-                DR. Sarah Smith!
+                {data?.user?.name}
               </h2>
               <p className="text-gray-500 text-md">Gynecologist, MBBS, MD</p>
 
@@ -31,15 +52,15 @@ export default function DoctorDashboard() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
                 <div className="bg-purple-100 p-4 rounded-lg">
                   <p className="text-gray-600 font-semibold">Appointments</p>
-                  <p className="text-blue-600 text-xl font-bold">12+</p>
+                  <p className="text-blue-600 text-xl font-bold">{appointments?.length}+</p>
                 </div>
                 <div className="bg-red-100 p-4 rounded-lg">
                   <p className="text-gray-600 font-semibold">Surgeries</p>
-                  <p className="text-red-600 text-xl font-bold">3+</p>
+                  <p className="text-red-600 text-xl font-bold">0</p>
                 </div>
                 <div className="bg-green-100 p-4 rounded-lg">
                   <p className="text-gray-600 font-semibold">Room Visit</p>
-                  <p className="text-green-600 text-xl font-bold">12+</p>
+                  <p className="text-green-600 text-xl font-bold">{appointments?.length}+</p>
                 </div>
               </div>
             </div>
@@ -60,7 +81,6 @@ export default function DoctorDashboard() {
         <div className="bg-white rounded-md p-5">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold text-gray-800">Appointments</h2>
-            <a href="#" className="text-blue-500 hover:underline">View All</a>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left text-gray-600">
@@ -70,28 +90,26 @@ export default function DoctorDashboard() {
                   <th className="py-3 px-4">Gender</th>
                   <th className="py-3 px-4">Date</th>
                   <th className="py-3 px-4">Disease</th>
-                  <th className="py-3 px-4">Report</th>
-                  <th className="py-3 px-4">Action</th>
+                  <th className="py-3 px-4">Time Slot</th>
+                  
                 </tr>
               </thead>
               <tbody>
-                {appointments.map((appt) => (
-                  <tr key={appt.id} className="border-b border-gray-300 hover:bg-gray-100">
+                {appointments?.map((appt) => (
+                  <tr key={appt._id} className="border-b border-gray-300 hover:bg-gray-100">
                     <td className="py-3 px-4 flex items-center space-x-3">
                       <div className="w-8 h-8 bg-gray-200 rounded-full"></div>
-                      <span>{appt.name}</span>
+                      <span>{appt?.patientName}</span>
                     </td>
-                    <td className="py-3 px-4">{appt.gender}</td>
-                    <td className="py-3 px-4">{appt.date}</td>
+                    <td className="py-3 px-4">Male</td>
+                    <td className="py-3 px-4">{appt?.selectedDate}</td>
                     <td className="py-3 px-4">
                       <span className={`px-3 py-1 border rounded-full text-xs font-medium ${appt.color}`}>
-                        {appt.disease}
+                        fever
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-red-500 text-lg"><FaFilePdf /></td>
-                    <td className="py-3 px-4">
-                      <a href="#" className="text-blue-500 hover:underline">Details</a>
-                    </td>
+                    <td className="py-3 px-4 text-lg">{appt?.selectedTime}</td>
+                    
                   </tr>
                 ))}
               </tbody>

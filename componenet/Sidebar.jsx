@@ -5,10 +5,14 @@ import Link from "next/link";
 import { IoIosLogOut } from "react-icons/io";
 import { FiMenu, FiX, FiHome, FiUsers, FiSettings, FiChevronRight, FiCalendar, FiUser, FiFileText } from "react-icons/fi";
 import { MdOutlineChat } from "react-icons/md";
+import useUserRole from "./hooks/useUserRole";
+
 
 export default function Sidebar() {
   const [open, setOpen] = useState(false);
   const [isMobileOrMd, setIsMobileOrMd] = useState(false);
+  const { role, loading } = useUserRole();
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -72,32 +76,36 @@ export default function Sidebar() {
               </Link>
             </li>
 
-            <li>
-              <Link href="/dashboard/allSlot" onClick={() => isMobileOrMd && setOpen(false)}>
-                <div className="flex items-center p-3 rounded-lg hover:bg-indigo-50 text-gray-700 transition-colors">
-                  <FiCalendar className="mr-3 text-indigo-600" />
-                  <span className="font-medium">All Slots</span>
-                  <FiChevronRight className="ml-auto text-gray-400" />
-                </div>
-              </Link>
-            </li>
+            {
+              role === "doctor" && <li>
+                <Link href="/dashboard/allSlot" onClick={() => isMobileOrMd && setOpen(false)}>
+                  <div className="flex items-center p-3 rounded-lg hover:bg-indigo-50 text-gray-700 transition-colors">
+                    <FiCalendar className="mr-3 text-indigo-600" />
+                    <span className="font-medium">All Slots</span>
+                    <FiChevronRight className="ml-auto text-gray-400" />
+                  </div>
+                </Link>
+              </li>
+            }
 
-            <li>
-              <Link href="/dashboard/patientRecords" onClick={() => isMobileOrMd && setOpen(false)}>
-                <div className="flex items-center p-3 rounded-lg hover:bg-indigo-50 text-gray-700 transition-colors">
-                  <FiFileText className="mr-3 text-indigo-600" />
-                  <span className="font-medium">Patient Records</span>
-                  <FiChevronRight className="ml-auto text-gray-400"/>
-                </div>
-              </Link>
-            </li>
+            {
+              role === "admin" && <li>
+                <Link href="/dashboard/patientRecords" onClick={() => isMobileOrMd && setOpen(false)}>
+                  <div className="flex items-center p-3 rounded-lg hover:bg-indigo-50 text-gray-700 transition-colors">
+                    <FiFileText className="mr-3 text-indigo-600" />
+                    <span className="font-medium">Patient Records</span>
+                    <FiChevronRight className="ml-auto text-gray-400" />
+                  </div>
+                </Link>
+              </li>
+            }
 
             <li>
               <Link href="/dashboard/chat" onClick={() => isMobileOrMd && setOpen(false)}>
                 <div className="flex items-center p-3 rounded-lg hover:bg-indigo-50 text-gray-700 transition-colors">
-                  <MdOutlineChat className="mr-3 text-indigo-600"/>
+                  <MdOutlineChat className="mr-3 text-indigo-600" />
                   <span className="font-medium">Chat</span>
-                  <FiChevronRight className="ml-auto text-gray-400"/>
+                  <FiChevronRight className="ml-auto text-gray-400" />
                 </div>
               </Link>
             </li>
@@ -107,7 +115,7 @@ export default function Sidebar() {
                 <div className="flex items-center p-3 rounded-lg hover:bg-indigo-50 text-gray-700 transition-colors">
                   <FiUser className="mr-3 text-indigo-600" />
                   <span className="font-medium">Profile</span>
-                  <FiChevronRight className="ml-auto text-gray-400"/>
+                  <FiChevronRight className="ml-auto text-gray-400" />
                 </div>
               </Link>
             </li>
