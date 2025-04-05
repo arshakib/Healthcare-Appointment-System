@@ -29,3 +29,30 @@ export async function POST(req) {
     return NextResponse.json({ message: "Error saving data" }, { status: 500 });
   }
 }
+
+
+export async function GET(req) {
+  try {
+    await connectToDatabase();
+    
+    const { searchParams } = new URL(req.url);
+    const email = searchParams.get("email");
+
+    // Check if email is provided
+    if (!email) {
+      return NextResponse.json({ message: "Email is required" }, { status: 400 });
+    }
+
+    // Fetch patient data by email
+    const patientData = await Patient.findOne({ email });
+
+    if (!patientData) {
+      return NextResponse.json({ message: "Patient not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(patientData, { status: 200 });
+  } catch (err) {
+    console.log("Data loading failed", err);
+    return NextResponse.json(err, { status: 500 });
+  }
+}

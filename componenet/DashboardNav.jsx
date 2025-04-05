@@ -9,7 +9,7 @@ const DashboardNav = () => {
     const {data: session} = useSession();
     
     return (
-        <header className="sticky top-0  w-full h-[61px] bg-white border-b">
+        <header className="sticky top-0 z-40  w-full h-[61px] bg-white border-b">
             <div className="px-4 flex items-center justify-between h-full">
 
                 {/* **Right Side - User Controls ** */}

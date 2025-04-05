@@ -1,22 +1,45 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PencilSquareIcon, TrashIcon, DocumentTextIcon } from "@heroicons/react/24/solid";
+import axios from "axios";
+import { useSession } from "next-auth/react";
 
-const patients = [
-    { id: "P001", name: "John Doe", gender: "Male", admission: "10/01/2024", diagnosis: "Hypertension", followUp: "11/01/2024", status: "Recovered" },
-    { id: "P002", name: "Jane Smith", gender: "Female", admission: "10/05/2024", diagnosis: "Type 2 Diabetes", followUp: "11/10/2024", status: "In Treatment" },
-    { id: "P003", name: "David Johnson", gender: "Male", admission: "09/15/2024", diagnosis: "Chronic Migraine", followUp: "10/30/2024", status: "In Treatment" },
-    { id: "P004", name: "Emily Davis", gender: "Female", admission: "10/03/2024", diagnosis: "Asthma", followUp: "11/03/2024", status: "Recovered" },
-    { id: "P005", name: "Michael Brown", gender: "Male", admission: "09/20/2024", diagnosis: "Osteoarthritis", followUp: "10/25/2024", status: "In Treatment" },
-    { id: "P006", name: "Sophia Williams", gender: "Female", admission: "10/07/2024", diagnosis: "Hyperthyroidism", followUp: "10/28/2024", status: "In Treatment" },
-];
 
 export default function PatientRecordsTable() {
+    const [appointments, setAppointments] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const { data: session } = useSession();
     const [search, setSearch] = useState("");
 
-    const filteredPatients = patients.filter((patient) =>
-        patient.name.toLowerCase().includes(search.toLowerCase())
+    const filteredPatients = appointments.filter((patient) =>
+        patient.patientName?.toLowerCase().includes(search.toLowerCase())
     );
+
+    
+    useEffect(() => {
+        if (!session?.user?.email) return; 
+
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const appointmentRes = await axios.get(`/api/appointment?patientEmail=${session.user.email}`);
+                setAppointments(appointmentRes.data);
+
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching data", error);
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [session?.user?.email]); 
+
+    if (loading) return <div className='text-gray-800'>Loading...</div>;
+   
+    console.log(appointments)
+
+
 
     return (
         <div className=" text-black">
@@ -46,38 +69,31 @@ export default function PatientRecordsTable() {
                                 <th className="px-3 py-4 text-left">Gender</th>
                                 <th className="px-3 py-4 text-left">Date of Admission</th>
                                 <th className="px-3 py-4 text-left">Diagnosis</th>
-                                <th className="px-3 py-4 text-left">Next Follow-Up</th>
                                 <th className="px-3 py-4 text-left">Status</th>
                                 <th className="px-3 py-4 text-left">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredPatients.map((patient) => (
-                                <tr key={patient.id} className="border-b border-gray-300 hover:bg-gray-100">
-                                    <td className="px-4 py-4">{patient.id}</td>
-                                    <td className="px-4 py-4">{patient.name}</td>
+                            {filteredPatients?.map((patient,index) => (
+                                <tr key={patient._id} className="border-b border-gray-300 hover:bg-gray-100">
+                                    <td className="px-4 py-4">{index + 1}</td>
+                                    <td className="px-4 py-4">{patient?.patientName}</td>
                                     <td className="px-4 py-4">
                                         <span
                                             className={`px-2 py-1 text-xs font-semibold rounded-full ${patient.gender === "Male" ? "bg-green-200 text-green-700" : "bg-purple-200 text-purple-700"
                                                 }`}
                                         >
-                                            {patient.gender}
+                                            male
                                         </span>
                                     </td>
-                                    <td className="px-4 py-4">{patient.admission}</td>
-                                    <td className="px-4 py-4">{patient.diagnosis}</td>
-                                    <td className="px-4 py-4">{patient.followUp}</td>
-                                    <td className="px-4 py-4">{patient.status}</td>
+                                    <td className="px-4 py-4">{patient?.selectedDate}</td>
+                                    <td className="px-4 py-4">Fever</td>
+                                    <td className="px-4 py-4">Pending</td>
                                     <td className="px-4 py-4 flex gap-2">
-                                        <button className="text-blue-500 hover:text-blue-700">
-                                            <PencilSquareIcon className="h-5 w-5" />
-                                        </button>
                                         <button className="text-red-500 hover:text-red-700">
                                             <TrashIcon className="h-5 w-5" />
                                         </button>
-                                        <button className="text-gray-600 hover:text-gray-800">
-                                            <DocumentTextIcon className="h-5 w-5" />
-                                        </button>
+                                        
                                     </td>
                                 </tr>
                             ))}

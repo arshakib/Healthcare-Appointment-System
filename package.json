@@ -35,6 +35,7 @@
     "react-icons": "^5.5.0",
     "react-time-picker": "^7.0.0",
     "react-toastify": "^11.0.5",
+    "recharts": "^2.15.2",
     "swiper": "^11.2.6"
   },
   "devDependencies": {
