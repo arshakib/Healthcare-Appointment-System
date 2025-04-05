@@ -24,7 +24,6 @@ const patientSchema = new mongoose.Schema(
     phone: {
       type: String,
       required: true,
-      match: [/^\d{11}$/, "Please enter a valid 10-digit phone number"],
     },
     email: {
       type: String,
@@ -45,7 +44,6 @@ const patientSchema = new mongoose.Schema(
     emergencyPhone: {
       type: String,
       required: true,
-      match: [/^\d{11}$/, "Please enter a valid 10-digit phone number"],
     },
     symptoms: {
       type: String,
