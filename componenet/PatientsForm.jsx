@@ -1,7 +1,9 @@
 "use client";
 import { imageUploadToImgbb } from "@/app/utils/uploadImage";
+import { useSession } from "next-auth/react";
 
 export default function PatientsForm() {
+  const { data: session } = useSession();
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -89,7 +91,14 @@ export default function PatientsForm() {
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <label className={labelStyle}>Name</label>
-              <input type="text" name="name" className={inputStyle} required />
+              <input
+                type="text"
+                value={session?.user?.name}
+                readOnly
+                name="name"
+                className={inputStyle}
+                required
+              />
             </div>
             <div>
               <label className={labelStyle}>Age</label>
@@ -144,6 +153,8 @@ export default function PatientsForm() {
               <input
                 type="email"
                 name="email"
+                value={session?.user?.email}
+                readOnly
                 className={inputStyle}
                 required
               />

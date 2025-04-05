@@ -106,7 +106,7 @@ export const authOptions = {
                 name,
                 email,
                 image,
-                role: "patient", // Default role for Google users
+                role: "Patient", // Default role for Google users
               }),
             });
 
