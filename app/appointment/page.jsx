@@ -107,6 +107,7 @@ const DoctorAppointment = () => {
     );
   };
 
+
   return (
     <div className="py-10 px-4 max-w-7xl mx-auto">
       {/* Doctor Info Section */}

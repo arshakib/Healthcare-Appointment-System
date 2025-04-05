@@ -17,8 +17,7 @@ export default function Dashboard() {
             <DoctorDashboard />
           </div>
         </>
-        :
-        <>
+        :<>
           <div className="px-4 py-10">
             <PatientDashboard/>
           </div>
