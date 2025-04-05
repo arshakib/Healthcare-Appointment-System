@@ -45,7 +45,7 @@ const patientSchema = new mongoose.Schema(
     emergencyPhone: {
       type: String,
       required: true,
-      match: [/^\d{10}$/, "Please enter a valid 10-digit phone number"],
+      match: [/^\d{11}$/, "Please enter a valid 10-digit phone number"],
     },
     symptoms: {
       type: String,
