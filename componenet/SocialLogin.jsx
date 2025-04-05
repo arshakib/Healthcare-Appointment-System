@@ -32,22 +32,9 @@ const SocialLogin = () => {
     }, [status, router, loggedInOnce]);
 
     return (
-        // <div className="flex flex-col gap-3 mt-4">
-            
-        //     <div className="text-center">
-            
-        //     <button
-        //     onClick={() => handleSocialLogin("google")}
-        //     className="btn w-full md:w-2/3 mx-auto text-center text-3xl">
-        //         <FcGoogle className=""/>
-        //      Login with Google
-        //     </button>
-        //     </div>
-        //     <Image className="w-full md:w-2/3 mx-auto" src={logo} alt="login image"/>
-        // </div>
-
-        <div className="flex items-center justify-center min-h-screen px-4">
-      <div className="bg-white rounded-2xl shadow-lg md:p-10 w-full md:w-2/3 text-center space-y-6">
+        
+        <div className="flex items-center justify-center px-4">
+      <div className="bg-white rounded-2xl shadow-lg md:p-10 w-full max-w-md text-center space-y-6">
         <h2 className="text-2xl font-bold text-gray-700">Welcome Back!</h2>
         <p className="text-xl text-gray-500">Sign in to your account with Google</p>
 
@@ -58,7 +45,7 @@ const SocialLogin = () => {
           <FcGoogle className="text-2xl"/>
           <span className="text-xl text-black font-medium">Continue with Google</span>
         </button>
-        <Image className="rounded-xl" src={logo} alt="login image"/>
+        <Image className="rounded-xl" src={logo} alt="login image" />
       </div>
     </div>
     );
