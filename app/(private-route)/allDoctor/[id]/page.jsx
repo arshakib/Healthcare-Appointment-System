@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from 'next/link';
 import { FaMapMarkerAlt, FaStar } from "react-icons/fa";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -11,6 +12,7 @@ import { useSession } from "next-auth/react";
 
 const DoctorAppointment = () => {
   const { data: session } = useSession();
+  
   // console.log("session data", session);
   const params = useParams();
   const { id } = params;
@@ -81,6 +83,10 @@ const DoctorAppointment = () => {
   };
 
   const handleSubmit = async (e) => {
+
+    if(!session?.user?.email){
+      alert('you need to login before book an appintment')
+    }
     e.preventDefault();
     const appointmentData = {
       selectedDate: selectedDate.toISOString().split("T")[0],

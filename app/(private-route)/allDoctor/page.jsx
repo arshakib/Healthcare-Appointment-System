@@ -7,7 +7,21 @@ import { useEffect, useState } from "react";
 
 const DoctorsPage = () => {
   const [allDoctorData, setAllDoctorData] = useState([]);
-  // Enhanced static doctor data with more professional details
+  const [selectedSpecialty, setSelectedSpecialty] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSpecialtyChange = (event) => {
+    setSelectedSpecialty(event.target.value);
+  };
+
+  const handleLocationChange = (event) => {
+    setSelectedLocation(event.target.value);
+  };
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -22,6 +36,123 @@ const DoctorsPage = () => {
 
     fetchDoctors();
   }, []);
+
+  const filteredDoctors = allDoctorData.filter((doctor) => {
+    const name = doctor.fullName?.toLowerCase() || "";
+    const specialty = doctor.specialty?.toLowerCase() || "";
+    const location = doctor.area?.toLowerCase() || "";
+
+    const matchesSearch =
+      name.includes(searchQuery.toLowerCase()) ||
+      specialty.includes(searchQuery.toLowerCase());
+    const matchesSpecialty = selectedSpecialty
+      ? specialty === selectedSpecialty.toLowerCase()
+      : true;
+    const matchesLocation = selectedLocation
+      ? location === selectedLocation.toLowerCase()
+      : true;
+
+    return matchesSearch && matchesSpecialty && matchesLocation;
+  });
+
+  const specialties = [
+    "Cardiology",
+    "Dermatology",
+    "Neurology",
+    "Pediatrics",
+    "Orthopedics",
+    "General Practice",
+    "Oncology",
+    "Psychiatry",
+    "Allergy and Immunology",
+    "Anesthesiology",
+    "Endocrinology",
+    "Gastroenterology",
+    "Hematology",
+    "Infectious Disease",
+    "Nephrology",
+    "Obstetrics and Gynecology (OB/GYN)",
+    "Ophthalmology",
+    "Otolaryngology (ENT - Ear, Nose, and Throat)",
+    "Pathology",
+    "Plastic Surgery",
+    "Pulmonology (Lung Specialist)",
+    "Radiology",
+    "Rheumatology",
+    "Sports Medicine",
+    "Urology",
+    "Geriatrics (Elderly Care)",
+    "Emergency Medicine",
+    "Pain Management",
+    "Sleep Medicine",
+  ];
+
+  const locations = [
+    "Bagerhat",
+    "Bandarban",
+    "Barguna",
+    "Barisal",
+    "Bhola",
+    "Bogura",
+    "Brahmanbaria",
+    "Chandpur",
+    "Chattogram",
+    "Chuadanga",
+    "Cumilla",
+    "Cox's Bazar",
+    "Dhaka",
+    "Dinajpur",
+    "Faridpur",
+    "Feni",
+    "Gaibandha",
+    "Gazipur",
+    "Gopalganj",
+    "Habiganj",
+    "Jamalpur",
+    "Jashore",
+    "Jhalokati",
+    "Jhenaidah",
+    "Joypurhat",
+    "Khagrachhari",
+    "Khulna",
+    "Kishoreganj",
+    "Kurigram",
+    "Kushtia",
+    "Lakshmipur",
+    "Lalmonirhat",
+    "Madaripur",
+    "Magura",
+    "Manikganj",
+    "Meherpur",
+    "Moulvibazar",
+    "Munshiganj",
+    "Mymensingh",
+    "Naogaon",
+    "Narail",
+    "Narayanganj",
+    "Narsingdi",
+    "Natore",
+    "Nawabganj",
+    "Netrokona",
+    "Nilphamari",
+    "Noakhali",
+    "Pabna",
+    "Panchagarh",
+    "Patuakhali",
+    "Pirojpur",
+    "Rajbari",
+    "Rajshahi",
+    "Rangamati",
+    "Rangpur",
+    "Satkhira",
+    "Shariatpur",
+    "Sherpur",
+    "Sirajganj",
+    "Sunamganj",
+    "Sylhet",
+    "Tangail",
+    "Thakurgaon",
+  ];
 
   return (
     <div className=" py-10">
@@ -68,7 +199,10 @@ const DoctorsPage = () => {
                   type="text"
                   id="search"
                   placeholder="Search by name, specialty..."
+                  value={searchQuery}
+                  onChange={handleSearchChange}
                   className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  // ...other props
                 />
               </div>
             </div>
@@ -84,23 +218,18 @@ const DoctorsPage = () => {
               <div className="relative">
                 <select
                   id="specialty"
-                  className="appearance-none block w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 pr-8"
-                ></select>
-                <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                  <svg
-                    className="h-5 w-5 text-gray-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </div>
+                  value={selectedSpecialty}
+                  onChange={handleSpecialtyChange}
+                  className="block w-full pl-3 pr-10 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                >
+                  <option value="">All Specialties</option>
+                  {specialties.map((specialty) => (
+                    <option key={specialty} value={specialty}>
+                      {specialty}
+                    </option>
+                  ))}
+                </select>
+                <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"></div>
               </div>
             </div>
 
@@ -115,23 +244,19 @@ const DoctorsPage = () => {
               <div className="relative">
                 <select
                   id="location"
-                  className="appearance-none block w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 pr-8"
-                ></select>
-                <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                  <svg
-                    className="h-5 w-5 text-gray-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </div>
+                  value={selectedLocation}
+                  onChange={handleLocationChange}
+                  className="block w-full pl-3 pr-10 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  // ...other props
+                >
+                  <option value="">All Locations</option>
+                  {locations.map((location) => (
+                    <option key={location} value={location}>
+                      {location}
+                    </option>
+                  ))}
+                </select>
+                <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"></div>
               </div>
             </div>
 
@@ -202,9 +327,9 @@ const DoctorsPage = () => {
         </div>
 
         {/* Doctor Cards */}
-        {allDoctorData?.length > 0 ? (
+        {filteredDoctors?.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-3 ">
-            {allDoctorData?.map((doctor) => (
+            {filteredDoctors?.map((doctor) => (
               <div
                 key={doctor?._id}
                 className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all duration-300"

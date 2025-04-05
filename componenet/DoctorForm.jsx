@@ -3,6 +3,8 @@
 import { imageUploadToImgbb } from "@/app/utils/uploadImage";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const DoctorForm = () => {
   const { data: session } = useSession();
@@ -22,6 +24,9 @@ const DoctorForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Show loading toast
+    const toastId = toast.loading("Submitting your registration...");
+
     const form = e.target;
     const fullName = form.fullName.value;
     const age = form.age.value;
@@ -29,6 +34,7 @@ const DoctorForm = () => {
     const phone = form.phone.value;
     const gender = form.gender.value;
     const address = form.address.value;
+    const area = form.area.value;
     const bio = form.bio.value;
     const licenseNumber = form.licenseNumber.value;
     const yearsOfExperience = form.yearsOfExperience.value;
@@ -49,6 +55,7 @@ const DoctorForm = () => {
       phone,
       gender,
       address,
+      area,
       bio,
       licenseNumber,
       yearsOfExperience,
@@ -74,12 +81,34 @@ const DoctorForm = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
+        console.log("Doctor data saved:", data);
+        // Update the toast to show success message
+        toast.update(toastId, {
+          render: "Registration submitted successfully!",
+          type: "success",
+          isLoading: false,
+          autoClose: 3000,
+          closeOnClick: true,
+        });
+        form.reset();
+        setSelectedDays([]);
       } else {
-        console.error("Error saving data:", response.statusText);
+        toast.update(toastId, {
+          render: "Failed to submit registration. Please try again.",
+          type: "error",
+          isLoading: false,
+          autoClose: 3000,
+          closeOnClick: true,
+        });
       }
     } catch (error) {
-      console.error("Error saving data:", error);
+      toast.update(toastId, {
+        render: "An error occurred. Please try again later.",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+        closeOnClick: true,
+      });
     }
 
     console.log(doctorFormData);
@@ -128,19 +157,21 @@ const DoctorForm = () => {
   ];
 
   return (
-    <div className=" px-4 sm:px-6 lg:px-8 pt-10">
-      <div className="max-w-3xl mx-auto rounded-xl shadow-md overflow-hidden">
-        <div className="bg-[#033137] py-4 px-6">
-          <h2 className="text-2xl font-bold text-white">
+    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+        <div className="bg-gradient-to-r from-[#033137] to-[#005662] py-6 px-8">
+          <h2 className="text-3xl font-bold text-white">
             Doctor Registration Request
           </h2>
-          <p className="text-blue-100">Join our healthcare network</p>
+          <p className="text-blue-100 mt-2">
+            Join our healthcare network and make a difference
+          </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-6 text-black">
+        <form onSubmit={handleSubmit} className="p-8 space-y-8">
           {/* Personal Information Section */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-medium text-gray-900 border-b pb-2">
+          <div className="space-y-6">
+            <h3 className="text-xl font-semibold text-gray-900 border-b border-gray-200 pb-3">
               Personal Information
             </h3>
 
@@ -159,7 +190,7 @@ const DoctorForm = () => {
                   readOnly
                   name="fullName"
                   required
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                   placeholder="Dr. John Doe"
                 />
               </div>
@@ -176,7 +207,7 @@ const DoctorForm = () => {
                   type="number"
                   name="age"
                   required
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                   placeholder="35"
                 />
               </div>
@@ -197,7 +228,7 @@ const DoctorForm = () => {
                   value={session?.user?.email || ""}
                   readOnly
                   required
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                   placeholder="doctor@example.com"
                 />
               </div>
@@ -214,7 +245,7 @@ const DoctorForm = () => {
                   type="tel"
                   name="phone"
                   required
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                   placeholder="+8801XXXXXXXXX"
                 />
               </div>
@@ -231,7 +262,7 @@ const DoctorForm = () => {
                 <select
                   name="gender"
                   required
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                 >
                   <option value="">Select gender</option>
                   <option value="Male">Male</option>
@@ -252,10 +283,92 @@ const DoctorForm = () => {
                   type="text"
                   name="address"
                   required
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                   placeholder="123 Medical Street, Dhaka"
                 />
               </div>
+            </div>
+
+            <div>
+              <fieldset className="border-2 border-[#1d7261] rounded-xl p-2 focus-within:border-[#f9be00]">
+                <legend className="px-2 text-[#f9be00] text-sm font-medium">
+                  Select your Area
+                </legend>
+                <select
+                  name="area"
+                  required
+                  defaultValue="" // Fix for default option
+                  className="w-full h-14 px-4 text-[#033137] bg-white rounded-lg focus:outline-none"
+                >
+                  <option value="" disabled>
+                    Choose your location
+                  </option>
+                  <option>Bagerhat</option>
+                  <option>Bandarban</option>
+                  <option>Barguna</option>
+                  <option>Barisal</option>
+                  <option>Bhola</option>
+                  <option>Bogura</option>
+                  <option>Brahmanbaria</option>
+                  <option>Chandpur</option>
+                  <option>Chattogram</option>
+                  <option>Chuadanga</option>
+                  <option>Cumilla</option>
+                  <option>Cox's Bazar</option>
+                  <option>Dhaka</option>
+                  <option>Dinajpur</option>
+                  <option>Faridpur</option>
+                  <option>Feni</option>
+                  <option>Gaibandha</option>
+                  <option>Gazipur</option>
+                  <option>Gopalganj</option>
+                  <option>Habiganj</option>
+                  <option>Jamalpur</option>
+                  <option>Jashore</option>
+                  <option>Jhalokati</option>
+                  <option>Jhenaidah</option>
+                  <option>Joypurhat</option>
+                  <option>Khagrachhari</option>
+                  <option>Khulna</option>
+                  <option>Kishoreganj</option>
+                  <option>Kurigram</option>
+                  <option>Kushtia</option>
+                  <option>Lakshmipur</option>
+                  <option>Lalmonirhat</option>
+                  <option>Madaripur</option>
+                  <option>Magura</option>
+                  <option>Manikganj</option>
+                  <option>Meherpur</option>
+                  <option>Moulvibazar</option>
+                  <option>Munshiganj</option>
+                  <option>Mymensingh</option>
+                  <option>Naogaon</option>
+                  <option>Narail</option>
+                  <option>Narayanganj</option>
+                  <option>Narsingdi</option>
+                  <option>Natore</option>
+                  <option>Nawabganj</option>
+                  <option>Netrokona</option>
+                  <option>Nilphamari</option>
+                  <option>Noakhali</option>
+                  <option>Pabna</option>
+                  <option>Panchagarh</option>
+                  <option>Patuakhali</option>
+                  <option>Pirojpur</option>
+                  <option>Rajbari</option>
+                  <option>Rajshahi</option>
+                  <option>Rangamati</option>
+                  <option>Rangpur</option>
+                  <option>Satkhira</option>
+                  <option>Shariatpur</option>
+                  <option>Sherpur</option>
+                  <option>Sirajganj</option>
+                  <option>Sunamganj</option>
+                  <option>Sylhet</option>
+                  <option>Tangail</option>
+                  <option>Thakurgaon</option>
+                </select>
+              </fieldset>
             </div>
 
             {/* textarea field */}
@@ -267,15 +380,15 @@ const DoctorForm = () => {
                 name="bio"
                 rows={3}
                 required
-                className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                 placeholder="Briefly describe your professional background and approach to patient care"
               />
             </div>
           </div>
 
           {/* Professional Details Section */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-medium text-gray-900 border-b pb-2">
+          <div className="space-y-6">
+            <h3 className="text-xl font-semibold text-gray-900 border-b border-gray-200 pb-3">
               Professional Information
             </h3>
 
@@ -292,7 +405,7 @@ const DoctorForm = () => {
                   type="text"
                   name="licenseNumber"
                   required
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                   placeholder="BMDC-12345"
                 />
               </div>
@@ -311,7 +424,7 @@ const DoctorForm = () => {
                   min="0"
                   max="50"
                   required
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                   placeholder="10"
                 />
               </div>
@@ -329,7 +442,7 @@ const DoctorForm = () => {
                 <select
                   name="medicalDegree"
                   required
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                 >
                   <option value="">Select degree</option>
                   <option value="MBBS">MBBS</option>
@@ -353,7 +466,7 @@ const DoctorForm = () => {
                 <select
                   name="specialty"
                   required
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                 >
                   <option value="">Select specialty</option>
                   {specialties.map((spec) => (
@@ -378,7 +491,7 @@ const DoctorForm = () => {
                   type="text"
                   name="currentHospital"
                   required
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                   placeholder="Dhaka Medical College Hospital"
                 />
               </div>
@@ -394,7 +507,7 @@ const DoctorForm = () => {
                 <input
                   type="text"
                   name="hospitalAffiliation"
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                   placeholder="Square Hospital, Apollo Clinic"
                 />
               </div>
@@ -415,7 +528,7 @@ const DoctorForm = () => {
                   min="1"
                   max="100"
                   required
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                   placeholder="30"
                 />
               </div>
@@ -433,7 +546,7 @@ const DoctorForm = () => {
                   type="text"
                   name="startingHours"
                   required
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md  py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md  py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                   placeholder="9"
                 />
                 <label
@@ -447,7 +560,7 @@ const DoctorForm = () => {
                   type="text"
                   name="endingHours"
                   required
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md  py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md  py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                   placeholder="15"
                 />
               </div>
@@ -455,8 +568,8 @@ const DoctorForm = () => {
           </div>
 
           {/* Availability Section */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-medium text-gray-900 border-b pb-2">
+          <div className="space-y-6">
+            <h3 className="text-xl font-semibold text-gray-900 border-b border-gray-200 pb-3">
               Availability
             </h3>
 
@@ -486,19 +599,17 @@ const DoctorForm = () => {
             </div>
           </div>
 
-          {/* Profile Photo */}
-
           {/* Form Actions */}
-          <div className="flex justify-end space-x-4 pt-6">
+          <div className="flex justify-end space-x-4 pt-8">
             <button
               type="button"
-              className="px-4 py-2 border border-gray-300 rounded-md  text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 cursor-pointer"
+              className="px-6 py-3 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors duration-200"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 border border-transparent rounded-md  text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 cursor-pointer"
+              className="px-6 py-3 border border-transparent rounded-lg text-sm font-medium text-white bg-[#033137] hover:bg-[#005662] transition-colors duration-200"
             >
               Submit Request
             </button>
