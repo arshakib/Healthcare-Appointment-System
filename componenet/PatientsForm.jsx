@@ -93,7 +93,7 @@ export default function PatientsForm() {
               <label className={labelStyle}>Name</label>
               <input
                 type="text"
-                value={session?.user?.name}
+                value={session?.user?.name || ""}
                 readOnly
                 name="name"
                 className={inputStyle}
@@ -153,7 +153,7 @@ export default function PatientsForm() {
               <input
                 type="email"
                 name="email"
-                value={session?.user?.email}
+                value={session?.user?.email || ""}
                 readOnly
                 className={inputStyle}
                 required
