@@ -98,7 +98,7 @@ any one specialist will be selected",
         // Query the database for doctors matching the specialist
         const doctors = await Doctor.find({
           specialty: { $regex: new RegExp(specialist, "i") },
-          address: { $regex: new RegExp(area, "i") },
+          area: { $regex: new RegExp(area, "i") },
         });
 
         // console.log("Doctors found:", doctors);

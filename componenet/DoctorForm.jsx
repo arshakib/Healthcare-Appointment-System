@@ -3,14 +3,14 @@
 import { imageUploadToImgbb } from "@/app/utils/uploadImage";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const DoctorForm = () => {
   const { data: session } = useSession();
   console.log("session data", session?.user?.email, session?.user);
   const LoginUserEmail = session?.user?.email;
-  const [selectedDays, setSelectedDays] = useState([]); 
+  const [selectedDays, setSelectedDays] = useState([]);
 
   const handleCheckboxChange = (event) => {
     const { value, checked } = event.target;
@@ -34,6 +34,7 @@ const DoctorForm = () => {
     const phone = form.phone.value;
     const gender = form.gender.value;
     const address = form.address.value;
+    const area = form.area.value;
     const bio = form.bio.value;
     const licenseNumber = form.licenseNumber.value;
     const yearsOfExperience = form.yearsOfExperience.value;
@@ -54,6 +55,7 @@ const DoctorForm = () => {
       phone,
       gender,
       address,
+      area,
       bio,
       licenseNumber,
       yearsOfExperience,
@@ -79,12 +81,14 @@ const DoctorForm = () => {
 
       if (response.ok) {
         const data = await response.json();
+        console.log("Doctor data saved:", data);
+        // Update the toast to show success message
         toast.update(toastId, {
           render: "Registration submitted successfully!",
           type: "success",
           isLoading: false,
           autoClose: 3000,
-          closeOnClick: true
+          closeOnClick: true,
         });
         form.reset();
         setSelectedDays([]);
@@ -94,7 +98,7 @@ const DoctorForm = () => {
           type: "error",
           isLoading: false,
           autoClose: 3000,
-          closeOnClick: true
+          closeOnClick: true,
         });
       }
     } catch (error) {
@@ -103,7 +107,7 @@ const DoctorForm = () => {
         type: "error",
         isLoading: false,
         autoClose: 3000,
-        closeOnClick: true
+        closeOnClick: true,
       });
     }
 
@@ -159,7 +163,9 @@ const DoctorForm = () => {
           <h2 className="text-3xl font-bold text-white">
             Doctor Registration Request
           </h2>
-          <p className="text-blue-100 mt-2">Join our healthcare network and make a difference</p>
+          <p className="text-blue-100 mt-2">
+            Join our healthcare network and make a difference
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="p-8 space-y-8">
@@ -281,6 +287,88 @@ const DoctorForm = () => {
                   placeholder="123 Medical Street, Dhaka"
                 />
               </div>
+            </div>
+
+            <div>
+              <fieldset className="border-2 border-[#1d7261] rounded-xl p-2 focus-within:border-[#f9be00]">
+                <legend className="px-2 text-[#f9be00] text-sm font-medium">
+                  Select your Area
+                </legend>
+                <select
+                  name="area"
+                  required
+                  defaultValue="" // Fix for default option
+                  className="w-full h-14 px-4 text-[#033137] bg-white rounded-lg focus:outline-none"
+                >
+                  <option value="" disabled>
+                    Choose your location
+                  </option>
+                  <option>Bagerhat</option>
+                  <option>Bandarban</option>
+                  <option>Barguna</option>
+                  <option>Barisal</option>
+                  <option>Bhola</option>
+                  <option>Bogura</option>
+                  <option>Brahmanbaria</option>
+                  <option>Chandpur</option>
+                  <option>Chattogram</option>
+                  <option>Chuadanga</option>
+                  <option>Cumilla</option>
+                  <option>Cox's Bazar</option>
+                  <option>Dhaka</option>
+                  <option>Dinajpur</option>
+                  <option>Faridpur</option>
+                  <option>Feni</option>
+                  <option>Gaibandha</option>
+                  <option>Gazipur</option>
+                  <option>Gopalganj</option>
+                  <option>Habiganj</option>
+                  <option>Jamalpur</option>
+                  <option>Jashore</option>
+                  <option>Jhalokati</option>
+                  <option>Jhenaidah</option>
+                  <option>Joypurhat</option>
+                  <option>Khagrachhari</option>
+                  <option>Khulna</option>
+                  <option>Kishoreganj</option>
+                  <option>Kurigram</option>
+                  <option>Kushtia</option>
+                  <option>Lakshmipur</option>
+                  <option>Lalmonirhat</option>
+                  <option>Madaripur</option>
+                  <option>Magura</option>
+                  <option>Manikganj</option>
+                  <option>Meherpur</option>
+                  <option>Moulvibazar</option>
+                  <option>Munshiganj</option>
+                  <option>Mymensingh</option>
+                  <option>Naogaon</option>
+                  <option>Narail</option>
+                  <option>Narayanganj</option>
+                  <option>Narsingdi</option>
+                  <option>Natore</option>
+                  <option>Nawabganj</option>
+                  <option>Netrokona</option>
+                  <option>Nilphamari</option>
+                  <option>Noakhali</option>
+                  <option>Pabna</option>
+                  <option>Panchagarh</option>
+                  <option>Patuakhali</option>
+                  <option>Pirojpur</option>
+                  <option>Rajbari</option>
+                  <option>Rajshahi</option>
+                  <option>Rangamati</option>
+                  <option>Rangpur</option>
+                  <option>Satkhira</option>
+                  <option>Shariatpur</option>
+                  <option>Sherpur</option>
+                  <option>Sirajganj</option>
+                  <option>Sunamganj</option>
+                  <option>Sylhet</option>
+                  <option>Tangail</option>
+                  <option>Thakurgaon</option>
+                </select>
+              </fieldset>
             </div>
 
             {/* textarea field */}
@@ -533,4 +621,3 @@ const DoctorForm = () => {
 };
 
 export default DoctorForm;
-

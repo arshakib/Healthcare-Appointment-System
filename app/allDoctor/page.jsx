@@ -40,7 +40,7 @@ const DoctorsPage = () => {
   const filteredDoctors = allDoctorData.filter((doctor) => {
     const name = doctor.fullName?.toLowerCase() || "";
     const specialty = doctor.specialty?.toLowerCase() || "";
-    const location = doctor.location?.toLowerCase() || "";
+    const location = doctor.area?.toLowerCase() || "";
 
     const matchesSearch =
       name.includes(searchQuery.toLowerCase()) ||

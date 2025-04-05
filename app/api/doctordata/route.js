@@ -17,6 +17,7 @@ export async function POST(request) {
       phone: Data.phone,
       gender: Data.gender,
       address: Data.address,
+      area: Data.area,
       bio: Data.bio,
       licenseNumber: Data.licenseNumber,
       yearsOfExperience: Data.yearsOfExperience,
