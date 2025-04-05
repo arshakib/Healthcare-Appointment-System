@@ -1,12 +1,12 @@
-
-
 import { Inter } from "next/font/google";  // Changed from Geist
 import "./globals.css";
+import 'react-toastify/dist/ReactToastify.css';
 
 import Footer from "@/componenet/Footer";
 import { ToastContainer } from "react-toastify";
 import NextAuthProvider from "./providers/NextAuthProvider";
 import Navbar from "@/componenet/Navber";
+
 
 // Configure Inter font
 const inter = Inter({
@@ -29,6 +29,7 @@ export default function RootLayout({ children }) {
         <NextAuthProvider>
           <Navbar></Navbar>
           <ToastContainer />
+          {/* <Toaster position="top-center" reverseOrder={false} /> */}
           {children}
           <footer className="w-full mt-20">
             <Footer />
