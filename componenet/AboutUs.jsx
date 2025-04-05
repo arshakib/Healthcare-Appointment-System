@@ -294,50 +294,72 @@ export default function AboutUs() {
   
   return (
     <>
-      {/* Hero Section */}
-      <div className="bg-gradient-to-r from-[#1d7261] to-[#2a8f7a] py-20 px-4 sm:px-6 lg:px-8 text-white">
-        <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-5xl font-bold mb-6">Revolutionizing Healthcare with AI</h1>
-          <p className="text-xl mb-8">Combining cutting-edge artificial intelligence with medical expertise to deliver superior patient care</p>
-        </div>
-      </div>
-
-      {/* Mission Section */}
+      {/* First Section - About Us */}
       <div className="bg-white py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col lg:flex-row items-center gap-12">
-            <div className="lg:w-1/2">
-              <img 
-                src="https://images.unsplash.com/photo-1576091160550-2173dba999ef" 
-                alt="Medical Team" 
-                className="rounded-lg shadow-xl"
-              />
-            </div>
-            <div className="lg:w-1/2">
-              <h2 className="text-3xl font-bold text-[#1d7261] mb-6">Our Mission</h2>
-              <p className="text-gray-600 text-lg mb-6">
-                To empower healthcare professionals and patients through intelligent, accessible, 
-                and ethical AI solutions that enhance diagnostic accuracy, improve treatment outcomes, 
-                and revolutionize personal health management.
-              </p>
-              <div className="space-y-4">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex flex-col md:flex-row items-center justify-between space-y-8 md:space-y-0">
+            <div>
+              <h2 className="text-4xl font-bold text-[#033137] mb-4">
+                AI-Powered
+                <br />
+                <span className="text-[40px] text-[#1d7261]">Healthcare Solutions</span>
+              </h2>
+
+              <div className="space-y-6 mt-8">
                 {[
-                  "Ethical AI Implementation",
-                  "Patient-Centric Solutions",
-                  "Continuous Learning Systems",
-                  "Multidisciplinary Collaboration"
+                  "Advanced AI Diagnostic Support",
+                  "24/7 Intelligent Health Monitoring",
+                  "Personalized Treatment Plans",
+                  "Secure Medical Data Analysis"
                 ].map((item, index) => (
-                  <div key={index} className="flex items-center">
-                    <div className="flex-shrink-0 w-8 h-8 bg-[#1d7261] text-white rounded-full flex items-center justify-center mr-4">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <span className="text-gray-800 text-lg">{item}</span>
+                  <div key={index} className="flex items-start">
+                    <svg 
+                      className="flex-shrink-0 h-6 w-6 text-[#1cb289] mr-4"
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round" 
+                        strokeWidth={2} 
+                        d="M5 13l4 4L19 7" 
+                      />
+                    </svg>
+                    <span className="text-[#033137] text-lg">
+                      {item}
+                    </span>
                   </div>
                 ))}
               </div>
             </div>
+            <div>
+              <img src="https://mediclinic.qodeinteractive.com/wp-content/uploads/2017/04/about-us-img-1.jpg" alt="" />
+            </div>
+          </div>
+  
+          <div className="border-t border-[#1d7261]/20 my-12"></div>
+  
+          <div className="text-center">
+            <a 
+              href="#"
+              className="inline-flex items-center text-[#1cb289] hover:text-[#1d7261] text-lg font-medium"
+            >
+              Learn More
+              <svg 
+                className="ml-2 h-5 w-5" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2} 
+                  d="M17 8l4 4m0 0l-4 4m4-4H3" 
+                />
+              </svg>
+            </a>
           </div>
         </div>
       </div>

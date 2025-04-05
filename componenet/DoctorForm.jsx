@@ -1,9 +1,13 @@
 "use client";
 
 import { imageUploadToImgbb } from "@/app/utils/uploadImage";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 
 const DoctorForm = () => {
+  const { data: session } = useSession();
+  console.log("session data", session?.user?.email, session?.user);
+  const LoginUserEmail = session?.user?.email;
   const [selectedDays, setSelectedDays] = useState([]);
 
   const handleCheckboxChange = (event) => {
@@ -33,9 +37,9 @@ const DoctorForm = () => {
     const currentHospital = form.currentHospital.value;
     const hospitalAffiliation = form.hospitalAffiliation.value;
     const patientPerDay = form.patientPerDay.value;
-    const consultationHours = form.consultationHours.value;
-    const photo = form.profilePhoto.files[0];
-    const profilePhoto = await imageUploadToImgbb(photo);
+    const startingHours = parseInt(form.startingHours.value, 10);
+    const endingHours = parseInt(form.endingHours.value, 10);
+    const profilePhoto = session?.user?.image || "";
 
     // doctor form data collect
     const doctorFormData = {
@@ -53,7 +57,8 @@ const DoctorForm = () => {
       currentHospital,
       hospitalAffiliation,
       patientPerDay,
-      consultationHours,
+      startingHours,
+      endingHours,
       profilePhoto,
       selectedDays,
     };
@@ -79,26 +84,6 @@ const DoctorForm = () => {
 
     console.log(doctorFormData);
   };
-
-  // const doctorSchema = new mongoose.Schema({
-  //     fullName: { type: String, required: true },
-  //     age: { type: Number, required: true },
-  //     email: { type: String, required: true, unique: true },
-  //     phone: { type: String, required: true },
-  //     gender: { type: String, required: true, enum: ["Male", "Female", "Other"] },
-  //     address: { type: String, required: true },
-  //     bio: { type: String, required: true },
-  //     licenseNumber: { type: String, required: true, unique: true },
-  //     yearsOfExperience: { type: Number, required: true, min: 0 },
-  //     medicalDegree: { type: String, required: true },
-  //     specialty: { type: String, required: true },
-  //     currentHospital: { type: String, required: true },
-  //     hospitalAffiliation: { type: String },
-  //     patientPerDay: { type: Number, required: true, min: 1 },
-  //     consultationHours: { type: String, required: true },
-  //     availableDays: { type: [String], required: true },
-  //     profilePhoto: { type: String },
-  // }, { timestamps: true });
 
   const specialties = [
     "Cardiology",
@@ -170,6 +155,8 @@ const DoctorForm = () => {
                 </label>
                 <input
                   type="text"
+                  value={session?.user?.name || ""}
+                  readOnly
                   name="fullName"
                   required
                   className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
@@ -207,6 +194,8 @@ const DoctorForm = () => {
                 <input
                   type="email"
                   name="email"
+                  value={session?.user?.email || ""}
+                  readOnly
                   required
                   className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   placeholder="doctor@example.com"
@@ -437,14 +426,29 @@ const DoctorForm = () => {
                   htmlFor="consultationHours"
                   className="block  font-medium text-gray-700"
                 >
-                  Consultation Hours *
+                  Consultation Starting Hours * [Type international format like
+                  9 or 15 ]
                 </label>
                 <input
                   type="text"
-                  name="consultationHours"
+                  name="startingHours"
                   required
                   className="mt-1 text-sm block w-full border border-gray-300 rounded-md  py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="9:00 AM - 5:00 PM"
+                  placeholder="9"
+                />
+                <label
+                  htmlFor="consultationHours"
+                  className="block  font-medium text-gray-700"
+                >
+                  Consultation Ending Hours * [Type international format like 9
+                  or 15 ]
+                </label>
+                <input
+                  type="text"
+                  name="endingHours"
+                  required
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md  py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="15"
                 />
               </div>
             </div>
@@ -483,28 +487,6 @@ const DoctorForm = () => {
           </div>
 
           {/* Profile Photo */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-medium text-gray-900 border-b pb-2">
-              Profile Photo
-            </h3>
-
-            <div>
-              <label className="block font-medium text-gray-700">
-                Upload Professional Photo
-              </label>
-              <div className="mt-1 flex items-center">
-                <input
-                  type="file"
-                  name="profilePhoto"
-                  accept="image/*"
-                  className="py-2 px-3 border border-gray-300 rounded-md text-sm cursor-pointer"
-                />
-              </div>
-              <p className="mt-1 text-sm text-gray-500">
-                A professional headshot (JPEG or PNG, max 5MB)
-              </p>
-            </div>
-          </div>
 
           {/* Form Actions */}
           <div className="flex justify-end space-x-4 pt-6">

@@ -1,5 +1,6 @@
 import { connectToDatabase } from "@/app/lib/db";
 import Doctor from "@/models/doctor";
+import User from "@/models/user";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
@@ -24,34 +25,47 @@ export async function POST(request) {
       currentHospital: Data.currentHospital,
       hospitalAffiliation: Data.hospitalAffiliation,
       patientPerDay: Data.patientPerDay,
-      consultationHours: Data.consultationHours,
+      startingHours: Data.startingHours,
+      endingHours: Data.endingHours,
       profilePhoto: Data.profilePhoto,
       selectedDays: Data.selectedDays,
     });
+
     // console.log(DoctorData);
 
-    return NextResponse.json({ message: "Data saved successfully" });
+    // Update the user's role to 'doctor'
+    const updatedUser = await User.findOneAndUpdate(
+      { email: body.email },
+      { role: "doctor" },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedUser) {
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({
+      message: "Doctor data saved and user role updated successfully",
+    });
   } catch (error) {
-    console.error("Error saving data:", error);
-    return NextResponse.json({ message: "Error saving data" }, { status: 500 });
+    console.error("Error processing request:", error);
+    return NextResponse.json(
+      { message: "Error processing request" },
+      { status: 500 }
+    );
   }
 }
-
 
 // all doctor data get from mongodb database
 
-export async function GET(){
-  try{
+export async function GET() {
+  try {
     await connectToDatabase();
     const allDoctorData = await Doctor.find().lean();
-    
-    return NextResponse.json(allDoctorData,{status: 200});
 
-  }catch(err){
-    console.log("Data loading failed",err);
-    return NextResponse.json(err, {status: 500})
+    return NextResponse.json(allDoctorData, { status: 200 });
+  } catch (err) {
+    console.log("Data loading failed", err);
+    return NextResponse.json(err, { status: 500 });
   }
-
 }
-
-
