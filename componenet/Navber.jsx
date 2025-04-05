@@ -67,6 +67,18 @@ const Navbar = () => {
             </li>
             <li>
               <Link
+                href="/allDoctor"
+                className={`hover:text-[#f9be00] ${
+                  pathname === "/allDoctor"
+                    ? "text-[#f9be00] font-semibold"
+                    : "text-white"
+                }`}
+              >
+                All Doctors
+              </Link>
+            </li>
+            <li>
+              <Link
                 href="/about"
                 className={`hover:text-[#f9be00] ${
                   pathname === "/about"
