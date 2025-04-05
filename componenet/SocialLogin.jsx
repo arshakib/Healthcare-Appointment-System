@@ -1,10 +1,12 @@
 "use client";
 
 import { signIn, useSession } from "next-auth/react";
+import { FcGoogle } from "react-icons/fc";
 import { useRouter } from "next/navigation";
-import { FaGoogle } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import Image from "next/image";
+import logo from "@/public/login.webp";
 
 const SocialLogin = () => {
     const { data: session, status } = useSession();
@@ -30,13 +32,35 @@ const SocialLogin = () => {
     }, [status, router, loggedInOnce]);
 
     return (
-        <div className="flex flex-col gap-3 mt-4">
-            <button
-            onClick={() => handleSocialLogin("google")}
-            className="btn flex items-center gap-3">
-            <FaGoogle /> Login with Google
-            </button>
-        </div>
+        // <div className="flex flex-col gap-3 mt-4">
+            
+        //     <div className="text-center">
+            
+        //     <button
+        //     onClick={() => handleSocialLogin("google")}
+        //     className="btn w-full md:w-2/3 mx-auto text-center text-3xl">
+        //         <FcGoogle className=""/>
+        //      Login with Google
+        //     </button>
+        //     </div>
+        //     <Image className="w-full md:w-2/3 mx-auto" src={logo} alt="login image"/>
+        // </div>
+
+        <div className="flex items-center justify-center min-h-screen px-4">
+      <div className="bg-white rounded-2xl shadow-lg md:p-10 w-full md:w-2/3 text-center space-y-6">
+        <h2 className="text-2xl font-bold text-gray-700">Welcome Back!</h2>
+        <p className="text-xl text-gray-500">Sign in to your account with Google</p>
+
+        <button
+          onClick={() => handleSocialLogin("google")}
+          className="flex items-center justify-center gap-3 w-full py-2 px-4 border border-gray-300 rounded-md hover:bg-gray-100 transition-all"
+        >
+          <FcGoogle className="text-2xl"/>
+          <span className="text-xl text-black font-medium">Continue with Google</span>
+        </button>
+        <Image className="rounded-xl" src={logo} alt="login image"/>
+      </div>
+    </div>
     );
 };
 

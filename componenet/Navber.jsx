@@ -1,5 +1,6 @@
 "use client";
 import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -8,6 +9,8 @@ import { toast } from "react-toastify";
 const Navbar = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
+  const userImage = session?.user?.image;
+  console.log(userImage);
   console.log(session, status);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -72,11 +75,22 @@ const Navbar = () => {
               className=" avatar hover:cursor-pointer"
             >
               <div className="w-10 h-10 rounded-full border-2 border-[#f9be00]">
-                <img
+                {/* <img
                   alt="User avatar"
                   src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
                   className="w-10 h-10 rounded-full"
-                />
+                /> */}
+
+             {(session?.user?.image || "/default-avatar.png") && (
+            <Image
+            title={session?.user?.name}
+            src={session?.user?.image || "/default-avatar.png"}
+            width={40}
+            height={40}
+            alt="user's photo"
+            />
+            )}
+            
               </div>
             </div>
             <ul
