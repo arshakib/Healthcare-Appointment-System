@@ -1,6 +1,8 @@
 "use client";
 import { imageUploadToImgbb } from "@/app/utils/uploadImage";
 import { useSession } from "next-auth/react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function PatientsForm() {
   const { data: session } = useSession();
@@ -52,14 +54,35 @@ export default function PatientsForm() {
 
       if (response.ok) {
         console.log(data);
-        alert("Data saved successfully");
+        toast.success("Patient information saved successfully!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
         form.reset();
       } else {
-        alert(data.message || "Error saving data");
+        toast.error(data.message || "Error saving patient information", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
     } catch (error) {
       console.error("Error saving data:", error);
-      alert("Error saving data");
+      toast.error("Error saving patient information. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
 
@@ -69,6 +92,7 @@ export default function PatientsForm() {
 
   return (
     <div className="max-w-4xl mx-auto bg-gradient-to-br from-indigo-50 to-white rounded-xl shadow-lg my-8">
+      <ToastContainer />
       <div className="bg-[#033137] py-6 rounded-t-2xl">
         <h2 className="text-3xl font-bold text-center text-white mb-8">
           Patients Admission Form
