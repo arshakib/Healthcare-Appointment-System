@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { FaMapMarkerAlt, FaStar } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
@@ -103,8 +104,36 @@ const DoctorAppointment = () => {
       });
       const data = await response.json();
       console.log("Response from server:", data);
+      
+      if (response.ok) {
+        toast.success("Appointment booked successfully!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      } else {
+        toast.error(data.message || "Failed to book appointment", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
     } catch (error) {
       console.error("Error submitting appointment:", error);
+      toast.error("Error booking appointment. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
 
