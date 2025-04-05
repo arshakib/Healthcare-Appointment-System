@@ -1,10 +1,13 @@
+"use client"
 import DoctorProfile from "@/componenet/DoctorProfile";
+import useUserRole from "@/componenet/hooks/useUserRole";
 import PatientProfile from "@/componenet/PatientProfile";
 
-//https://www.einfosoft.com/templates/admin/cliniva/source/light/#/admin/doctors/doctor-profile
 
 const Profile = () => {
-  const role = "doctor";
+ 
+  const {role, loading} = useUserRole();
+  if(loading) return <h2 className="text-gray-800">Loading...</h2> 
   return (
     <>
       {role === "doctor" ? (
