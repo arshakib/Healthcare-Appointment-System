@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import DemoArea from "./DemoArea";
+import Link from "next/link";
 
 const Search = () => {
   const [response, setResponse] = useState({
@@ -53,7 +54,10 @@ const Search = () => {
 
   console.log("Response:", response); // Log the response state
   return (
-    <div id="search-section" className="w-full px-4 md:px-8 lg:w-10/12 mx-auto mt-16">
+    <div
+      id="search-section"
+      className="w-full px-4 md:px-8 lg:w-10/12 mx-auto mt-16"
+    >
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-8">
           {/* Symptoms Input */}
@@ -286,27 +290,29 @@ const Search = () => {
                                   {doctor.specialty}
                                 </p>
                                 <div className="card-actions justify-end">
-                                  <button
-                                    className="btn font-bold tracking-wide"
-                                    style={{
-                                      backgroundColor: "#1d7261",
-                                      color: "white",
-                                      border: "none",
-                                      borderRadius: "0.5rem",
-                                      padding: "0.5rem 2rem",
-                                      transition: "all 0.3s ease",
-                                    }}
-                                    onMouseOver={(e) =>
-                                      (e.target.style.backgroundColor =
-                                        "#1cb289")
-                                    }
-                                    onMouseOut={(e) =>
-                                      (e.target.style.backgroundColor =
-                                        "#1d7261")
-                                    }
-                                  >
-                                    Book Appointment
-                                  </button>
+                                  <Link href={`/allDoctor/${doctor?._id}`}>
+                                    <button
+                                      className="btn font-bold tracking-wide"
+                                      style={{
+                                        backgroundColor: "#1d7261",
+                                        color: "white",
+                                        border: "none",
+                                        borderRadius: "0.5rem",
+                                        padding: "0.5rem 2rem",
+                                        transition: "all 0.3s ease",
+                                      }}
+                                      onMouseOver={(e) =>
+                                        (e.target.style.backgroundColor =
+                                          "#1cb289")
+                                      }
+                                      onMouseOut={(e) =>
+                                        (e.target.style.backgroundColor =
+                                          "#1d7261")
+                                      }
+                                    >
+                                      Book Appointment
+                                    </button>
+                                  </Link>
                                 </div>
                               </div>
                             </div>
