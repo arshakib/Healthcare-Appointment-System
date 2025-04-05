@@ -5,6 +5,8 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import { FaArrowRightToBracket } from "react-icons/fa6";
+import { FaCashRegister } from "react-icons/fa";
 
 const Navbar = () => {
   const router = useRouter();
@@ -34,39 +36,110 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex">
-          <ul className="flex items-center gap-8">
-            <li><Link href="/" className="hover:text-[#f9be00]">Home</Link></li>
-            <li><Link href="/allDoctor" className="hover:text-[#f9be00]">Doctors</Link></li>
-            <li><Link href="/patients" className="hover:text-[#f9be00]">Patients</Link></li>
-            <li><Link href="/about" className="hover:text-[#f9be00]">About</Link></li>
-            <li><Link href="/contact" className="hover:text-[#f9be00]">Contact</Link></li>
-          </ul>
-        </div>
+
+      <div className="hidden md:flex">
+      <ul className="flex items-center gap-8">
+        <li>
+          <Link
+            href="/"
+            className={`hover:text-[#f9be00] ${
+              pathname === "/" ? "text-[#f9be00] font-semibold" : "text-white"
+            }`}
+          >
+            Home
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/patients"
+            className={`hover:text-[#f9be00] ${
+              pathname === "/patients" ? "text-[#f9be00] font-semibold" : "text-white"
+            }`}
+          >
+            Patient's Registration
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/about"
+            className={`hover:text-[#f9be00] ${
+              pathname === "/about" ? "text-[#f9be00] font-semibold" : "text-white"
+            }`}
+          >
+            About Us
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/contact"
+            className={`hover:text-[#f9be00] ${
+              pathname === "/contact" ? "text-[#f9be00] font-semibold" : "text-white"
+            }`}
+          >
+            Contact Us
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/dashboard"
+            className={`hover:text-[#f9be00] ${
+              pathname === "/dashboard" ? "text-[#f9be00] font-semibold" : "text-white"
+            }`}
+          >
+            Dashboard
+          </Link>
+        </li>
+      </ul>
+      </div>
 
         {/* Right Side */}
         <div className="flex items-center gap-3">
           {status === "authenticated" ? (<>
-            <div className="dropdown dropdown-end">
-              <div tabIndex={0} role="button" className="avatar hover:cursor-pointer">
-                <div className="w-10 h-10 rounded-full border-2 border-[#f9be00] overflow-hidden">
-                  <Image
-                    src={validImage}
-                    width={40}
-                    height={40}
-                    alt="user avatar"
-                    title={session?.user?.name}
-                    className="rounded-full object-cover"
-                  />
-                </div>
-              </div>
-            </div>
-            <button
-            onClick={handleLogout}
-            className="border border-[#1d7261] px-3 py-[6px] rounded-sm hover:bg-[#1cb289] w-full"
-          >
-            Logout
-          </button>
+            
+          <div className="dropdown dropdown-end">
+  <div tabIndex={0} role="button" className="avatar hover:cursor-pointer">
+    <div className="w-10 h-10 rounded-full border-2 border-[#f9be00] overflow-hidden">
+      <Image
+        src={validImage}
+        width={40}
+        height={40}
+        alt="user avatar"
+        title={session?.user?.name}
+        className="rounded-full object-cover"
+      />
+    </div>
+  </div>
+
+  {/* Dropdown Content */}
+  <ul
+    tabIndex={0}
+    className="mt-3 z-[1] p-3 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-64 text-black"
+  >
+    <li className="mb-2">
+      <div className="flex flex-col">
+        <span className="font-semibold">{session?.user?.name}</span>
+        <span className="text-sm text-gray-500">{session?.user?.email}</span>
+      </div>
+    </li>
+    <div className="border-t my-2"></div>
+    <li>
+      <Link href={'/doctor'} className="hover:text-[#f9be00]">
+      <FaCashRegister />
+      Registration as a Doctor</Link>
+    </li>
+    <div className="border-t my-2"></div>
+    <li>
+      <button
+        onClick={handleLogout}
+        className="text-left text-red-600 hover:bg-red-100 rounded px-2 py-1"
+      >
+        Logout
+        <FaArrowRightToBracket />
+      </button>
+    </li>
+  </ul>
+</div>
+
           </>
           ) : (
             <div className="hidden md:flex gap-2">
@@ -104,12 +177,58 @@ const Navbar = () => {
               </svg>
             </button>
           </div>
-
+           {/* items */}
           <ul className="p-4 space-y-2">
-            <li><Link href="/" className="hover:text-[#f9be00]" onClick={() => setIsMenuOpen(false)}>Home</Link></li>
-            <li><Link href="/allDoctor" className="hover:text-[#f9be00]" onClick={() => setIsMenuOpen(false)}>Doctors</Link></li>
-            <li><Link href="/patients" className="hover:text-[#f9be00]" onClick={() => setIsMenuOpen(false)}>Patients</Link></li>
-            <li><Link href="/appointments" className="hover:text-[#f9be00]" onClick={() => setIsMenuOpen(false)}>Appointments</Link></li>
+          <li>
+          <Link
+            href="/"
+            className={`hover:text-[#f9be00] ${
+              pathname === "/" ? "text-[#f9be00] font-semibold" : "text-white"
+            }`}
+          >
+            Home
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/patients"
+            className={`hover:text-[#f9be00] ${
+              pathname === "/patients" ? "text-[#f9be00] font-semibold" : "text-white"
+            }`}
+          >
+            Patient's Registration
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/about"
+            className={`hover:text-[#f9be00] ${
+              pathname === "/about" ? "text-[#f9be00] font-semibold" : "text-white"
+            }`}
+          >
+            About Us
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/contact"
+            className={`hover:text-[#f9be00] ${
+              pathname === "/contact" ? "text-[#f9be00] font-semibold" : "text-white"
+            }`}
+          >
+            Contact Us
+          </Link>
+        </li>
+            <li>
+          <Link
+            href="/dashboard"
+            className={`hover:text-[#f9be00] ${
+              pathname === "/dashboard" ? "text-[#f9be00] font-semibold" : "text-white"
+            }`}
+          >
+            Dashboard
+          </Link>
+        </li>
           </ul>
 
           <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-[#1d7261]">
