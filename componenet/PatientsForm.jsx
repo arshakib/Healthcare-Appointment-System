@@ -177,7 +177,7 @@ export default function PatientsForm() {
               <input
                 type="email"
                 name="email"
-                value={session?.user?.email}
+                value={session?.user?.email || ""}
                 readOnly
                 className={inputStyle}
                 required
