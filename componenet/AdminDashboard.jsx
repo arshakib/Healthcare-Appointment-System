@@ -29,7 +29,7 @@ const AdminDashboard = () => {
       }, []);
     
       if (loading) return <div className="text-gray-800">Loading stats...</div>;
-      console.log(stats)
+      
     
 
     const appointments = [
@@ -39,11 +39,11 @@ const AdminDashboard = () => {
 
 
     const admissionData = [
-        { day: "Mon", admissions: 12 },
-        { day: "Tue", admissions: 19 },
+        { day: "Mon", admissions: 10 },
+        { day: "Tue", admissions: 7 },
         { day: "Wed", admissions: 8 },
-        { day: "Thu", admissions: 15 },
-        { day: "Fri", admissions: 10 },
+        { day: "Thu", admissions: 2 },
+        { day: "Fri", admissions: 7 },
     ];
 
     return (
