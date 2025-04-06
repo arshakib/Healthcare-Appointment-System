@@ -1,6 +1,8 @@
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 
 const PatientDashboard = () => {
+  const {data: session} = useSession();
   return (
     <div className="">
       <div className="bg-white rounded-lg p-6">
@@ -14,7 +16,7 @@ const PatientDashboard = () => {
           />
           <div>
             <h2 className="text-xl font-medium text-gray-500 mb-2">Welcome back</h2>
-            <h1 className="text-2xl font-bold text-blue-600 mb-2">Jahid Hasan!</h1>
+            <h1 className="text-2xl font-bold text-blue-600 mb-2">{session?.user?.name}!</h1>
             <p className="text-gray-600">
             We would like to take this opportunity to welcome you to our practice and to thank you for choosing our physicians to participate in your healthcare. We look forward to providing you with personalized, comprehensive health care focusing on wellness and prevention.
             </p>
@@ -50,7 +52,7 @@ const data = [
     icon: "/blood-pressure.png",
   },
   {
-    name: "Blood Pressure",
+    name: "Heart Pressure",
     value: "650",
     change: "07% Less Than Last Month",
     icon: "/heart-rate.png",
