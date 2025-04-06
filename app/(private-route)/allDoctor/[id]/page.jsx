@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import Link from 'next/link';
+import Link from "next/link";
 import { FaMapMarkerAlt, FaStar } from "react-icons/fa";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -12,7 +12,7 @@ import { useSession } from "next-auth/react";
 
 const DoctorAppointment = () => {
   const { data: session } = useSession();
-  
+
   // console.log("session data", session);
   const params = useParams();
   const { id } = params;
@@ -83,9 +83,8 @@ const DoctorAppointment = () => {
   };
 
   const handleSubmit = async (e) => {
-
-    if(!session?.user?.email){
-      alert('you need to login before book an appintment')
+    if (!session?.user?.email) {
+      alert("you need to login before book an appintment");
     }
     e.preventDefault();
     const appointmentData = {
@@ -109,6 +108,12 @@ const DoctorAppointment = () => {
       });
       const data = await response.json();
       console.log("Response from server:", data);
+      // Handle success or error response here
+      if (response.ok) {
+        alert("Appointment booked successfully!");
+      } else {
+        alert("Failed to book appointment. Please try again.");
+      }
     } catch (error) {
       console.error("Error submitting appointment:", error);
     }
