@@ -2,10 +2,8 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcrypt";
-
-import { connectToDatabase } from "@/app/lib/db";
 import User from "@/models/user";
-// import dbConnect, { collectionNameObj } from "@/app/lib/dbConnect";
+import { connectToDatabase } from "@/app/lib/db";
 
 export const authOptions = {
   providers: [
@@ -99,6 +97,7 @@ export const authOptions = {
 
   pages: {
     signIn: "/login",
+    error: "/auth/error", // Custom error page
   },
 
   secret: process.env.NEXTAUTH_SECRET,
@@ -109,41 +108,6 @@ export const authOptions = {
   pages: {
     signIn: "/login",
   },
-
-  // callbacks: {
-  //         async signIn({ user, account }) {
-  //             // console.log({ user, account, profile, email, credentials });
-  //             if(account){
-  //                 const {providerAccountId, provider} = account
-  //                 const {email: user_email, image, name} = user
-
-  //                 // await connectToDatabase();
-  //                 // const isExist = await User.findOne({ providerAccountId });
-  //                 // let existingUser = await User.findOne({ email });
-  //                 // if(!existingUser){
-  //                 //     existingUser = new User({
-  //                 //         providerAccountId,
-  //                 //         provider,
-  //                 //         email,
-  //                 //         image,
-  //                 //         name,
-  //                 //     });
-  //                 //     await existingUser.save();
-  //                 // }else {
-  //                 //     console.log("User already exists in MongoDB!");
-  //                 // }
-
-  //                 const userCollection = dbConnect(collectionNameObj.userCollection)
-  //                 const isExist = await userCollection.findOne({providerAccountId})
-
-  //                 if(!isExist){
-  //                     const payload = {providerAccountId,provider,email:user_email,image,name}
-  //                     await userCollection.insertOne(payload)
-  //                 }
-  //                 return true
-  //             }
-  //           },
-  //       }
 };
 
 const handler = NextAuth(authOptions);
