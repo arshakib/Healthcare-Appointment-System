@@ -1,76 +1,118 @@
 "use client";
+
+import { imageUploadToImgbb } from "@/app/utils/uploadImage";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const DoctorForm = () => {
-  const [formData, setFormData] = useState({
-    fullName: "",
-    age: "",
-    email: "",
-    phone: "",
-    gender: "",
-    address: "",
-    bio: "",
-    licenseNumber: "",
-    yearsOfExperience: "",
-    medicalDegree: "",
-    specialty: "",
-    currentHospital: "",
-    hospitalAffiliation: "",
-    patientPerDay: "",
-    consultationHours: "",
-    availableDays: [],
-    profilePhoto: null
-  });
+  const { data: session } = useSession();
+  console.log("session data", session?.user?.email, session?.user);
+  const LoginUserEmail = session?.user?.email;
+  const [selectedDays, setSelectedDays] = useState([]);
 
-  const handleChange = (e) => {
-    const { name, value, type, checked, files } = e.target;
-    
-    if (type === 'checkbox') {
-      const day = value;
-      setFormData(prev => ({
-        ...prev,
-        availableDays: checked 
-          ? [...prev.availableDays, day]
-          : prev.availableDays.filter(d => d !== day)
-      }));
-    } else if (type === 'file') {
-      setFormData(prev => ({
-        ...prev,
-        [name]: files[0]
-      }));
+  const handleCheckboxChange = (event) => {
+    const { value, checked } = event.target;
+    if (checked) {
+      setSelectedDays([...selectedDays, value]);
     } else {
-      setFormData(prev => ({
-        ...prev,
-        [name]: value
-      }));
+      setSelectedDays(selectedDays.filter((day) => day !== value));
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData); // For testing purposes
-    // Here you can send the formData to your backend
-  };
 
-  // const doctorSchema = new mongoose.Schema({
-  //     fullName: { type: String, required: true },
-  //     age: { type: Number, required: true },
-  //     email: { type: String, required: true, unique: true },
-  //     phone: { type: String, required: true },
-  //     gender: { type: String, required: true, enum: ["Male", "Female", "Other"] },
-  //     address: { type: String, required: true },
-  //     bio: { type: String, required: true },
-  //     licenseNumber: { type: String, required: true, unique: true },
-  //     yearsOfExperience: { type: Number, required: true, min: 0 },
-  //     medicalDegree: { type: String, required: true },
-  //     specialty: { type: String, required: true },
-  //     currentHospital: { type: String, required: true },
-  //     hospitalAffiliation: { type: String },
-  //     patientPerDay: { type: Number, required: true, min: 1 },
-  //     consultationHours: { type: String, required: true },
-  //     availableDays: { type: [String], required: true },
-  //     profilePhoto: { type: String },
-  // }, { timestamps: true });
+    // Show loading toast
+    const toastId = toast.loading("Submitting your registration...");
+
+    const form = e.target;
+    const fullName = form.fullName.value;
+    const age = form.age.value;
+    const email = form.email.value;
+    const phone = form.phone.value;
+    const gender = form.gender.value;
+    const address = form.address.value;
+    const area = form.area.value;
+    const bio = form.bio.value;
+    const licenseNumber = form.licenseNumber.value;
+    const yearsOfExperience = form.yearsOfExperience.value;
+    const medicalDegree = form.medicalDegree.value;
+    const specialty = form.specialty.value;
+    const currentHospital = form.currentHospital.value;
+    const hospitalAffiliation = form.hospitalAffiliation.value;
+    const patientPerDay = form.patientPerDay.value;
+    const startingHours = parseInt(form.startingHours.value, 10);
+    const endingHours = parseInt(form.endingHours.value, 10);
+    const profilePhoto = session?.user?.image || "";
+
+    // doctor form data collect
+    const doctorFormData = {
+      fullName,
+      age,
+      email,
+      phone,
+      gender,
+      address,
+      area,
+      bio,
+      licenseNumber,
+      yearsOfExperience,
+      medicalDegree,
+      specialty,
+      currentHospital,
+      hospitalAffiliation,
+      patientPerDay,
+      startingHours,
+      endingHours,
+      profilePhoto,
+      selectedDays,
+    };
+
+    try {
+      const response = await fetch("/api/doctordata", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(doctorFormData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Doctor data saved:", data);
+        // Update the toast to show success message
+        toast.update(toastId, {
+          render: "Registration submitted successfully!",
+          type: "success",
+          isLoading: false,
+          autoClose: 3000,
+          closeOnClick: true,
+        });
+        form.reset();
+        setSelectedDays([]);
+      } else {
+        toast.update(toastId, {
+          render: "Failed to submit registration. Please try again.",
+          type: "error",
+          isLoading: false,
+          autoClose: 3000,
+          closeOnClick: true,
+        });
+      }
+    } catch (error) {
+      toast.update(toastId, {
+        render: "An error occurred. Please try again later.",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+        closeOnClick: true,
+      });
+    }
+
+    console.log(doctorFormData);
+  };
 
   const specialties = [
     "Cardiology",
@@ -81,6 +123,27 @@ const DoctorForm = () => {
     "General Practice",
     "Oncology",
     "Psychiatry",
+    "Allergy and Immunology",
+    "Anesthesiology",
+    "Endocrinology",
+    "Gastroenterology",
+    "Hematology",
+    "Infectious Disease",
+    "Nephrology",
+    "Obstetrics and Gynecology (OB/GYN)",
+    "Ophthalmology",
+    "Otolaryngology (ENT - Ear, Nose, and Throat)",
+    "Pathology",
+    "Plastic Surgery",
+    "Pulmonology (Lung Specialist)",
+    "Radiology",
+    "Rheumatology",
+    "Sports Medicine",
+    "Urology",
+    "Geriatrics (Elderly Care)",
+    "Emergency Medicine",
+    "Pain Management",
+    "Sleep Medicine",
   ];
 
   const daysOfWeek = [
@@ -94,19 +157,21 @@ const DoctorForm = () => {
   ];
 
   return (
-    <div className=" px-4 sm:px-6 lg:px-8 pt-10">
-      <div className="max-w-3xl mx-auto rounded-xl shadow-md overflow-hidden">
-        <div className="bg-[#033137] py-4 px-6">
-          <h2 className="text-2xl font-bold text-white">
+    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+        <div className="bg-gradient-to-r from-[#033137] to-[#005662] py-6 px-8">
+          <h2 className="text-3xl font-bold text-white">
             Doctor Registration Request
           </h2>
-          <p className="text-blue-100">Join our healthcare network</p>
+          <p className="text-blue-100 mt-2">
+            Join our healthcare network and make a difference
+          </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-6 text-black">
+        <form onSubmit={handleSubmit} className="p-8 space-y-8">
           {/* Personal Information Section */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-medium text-gray-900 border-b pb-2">
+          <div className="space-y-6">
+            <h3 className="text-xl font-semibold text-gray-900 border-b border-gray-200 pb-3">
               Personal Information
             </h3>
 
@@ -121,11 +186,11 @@ const DoctorForm = () => {
                 </label>
                 <input
                   type="text"
+                  value={session?.user?.name || ""}
+                  readOnly
                   name="fullName"
-                  value={formData.fullName}
-                  onChange={handleChange}
                   required
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                   placeholder="Dr. John Doe"
                 />
               </div>
@@ -141,10 +206,8 @@ const DoctorForm = () => {
                 <input
                   type="number"
                   name="age"
-                  value={formData.age}
-                  onChange={handleChange}
                   required
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                   placeholder="35"
                 />
               </div>
@@ -162,10 +225,10 @@ const DoctorForm = () => {
                 <input
                   type="email"
                   name="email"
-                  value={formData.email}
-                  onChange={handleChange}
+                  value={session?.user?.email || ""}
+                  readOnly
                   required
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                   placeholder="doctor@example.com"
                 />
               </div>
@@ -181,10 +244,8 @@ const DoctorForm = () => {
                 <input
                   type="tel"
                   name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
                   required
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                   placeholder="+8801XXXXXXXXX"
                 />
               </div>
@@ -200,10 +261,8 @@ const DoctorForm = () => {
                 </label>
                 <select
                   name="gender"
-                  value={formData.gender}
-                  onChange={handleChange}
                   required
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                 >
                   <option value="">Select gender</option>
                   <option value="Male">Male</option>
@@ -223,13 +282,93 @@ const DoctorForm = () => {
                 <input
                   type="text"
                   name="address"
-                  value={formData.address}
-                  onChange={handleChange}
                   required
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                   placeholder="123 Medical Street, Dhaka"
                 />
               </div>
+            </div>
+
+            <div>
+              <fieldset className="border-2 border-[#1d7261] rounded-xl p-2 focus-within:border-[#f9be00]">
+                <legend className="px-2 text-[#f9be00] text-sm font-medium">
+                  Select your Area
+                </legend>
+                <select
+                  name="area"
+                  required
+                  defaultValue="" // Fix for default option
+                  className="w-full h-14 px-4 text-[#033137] bg-white rounded-lg focus:outline-none"
+                >
+                  <option value="" disabled>
+                    Choose your location
+                  </option>
+                  <option>Bagerhat</option>
+                  <option>Bandarban</option>
+                  <option>Barguna</option>
+                  <option>Barisal</option>
+                  <option>Bhola</option>
+                  <option>Bogura</option>
+                  <option>Brahmanbaria</option>
+                  <option>Chandpur</option>
+                  <option>Chattogram</option>
+                  <option>Chuadanga</option>
+                  <option>Cumilla</option>
+                  <option>Cox's Bazar</option>
+                  <option>Dhaka</option>
+                  <option>Dinajpur</option>
+                  <option>Faridpur</option>
+                  <option>Feni</option>
+                  <option>Gaibandha</option>
+                  <option>Gazipur</option>
+                  <option>Gopalganj</option>
+                  <option>Habiganj</option>
+                  <option>Jamalpur</option>
+                  <option>Jashore</option>
+                  <option>Jhalokati</option>
+                  <option>Jhenaidah</option>
+                  <option>Joypurhat</option>
+                  <option>Khagrachhari</option>
+                  <option>Khulna</option>
+                  <option>Kishoreganj</option>
+                  <option>Kurigram</option>
+                  <option>Kushtia</option>
+                  <option>Lakshmipur</option>
+                  <option>Lalmonirhat</option>
+                  <option>Madaripur</option>
+                  <option>Magura</option>
+                  <option>Manikganj</option>
+                  <option>Meherpur</option>
+                  <option>Moulvibazar</option>
+                  <option>Munshiganj</option>
+                  <option>Mymensingh</option>
+                  <option>Naogaon</option>
+                  <option>Narail</option>
+                  <option>Narayanganj</option>
+                  <option>Narsingdi</option>
+                  <option>Natore</option>
+                  <option>Nawabganj</option>
+                  <option>Netrokona</option>
+                  <option>Nilphamari</option>
+                  <option>Noakhali</option>
+                  <option>Pabna</option>
+                  <option>Panchagarh</option>
+                  <option>Patuakhali</option>
+                  <option>Pirojpur</option>
+                  <option>Rajbari</option>
+                  <option>Rajshahi</option>
+                  <option>Rangamati</option>
+                  <option>Rangpur</option>
+                  <option>Satkhira</option>
+                  <option>Shariatpur</option>
+                  <option>Sherpur</option>
+                  <option>Sirajganj</option>
+                  <option>Sunamganj</option>
+                  <option>Sylhet</option>
+                  <option>Tangail</option>
+                  <option>Thakurgaon</option>
+                </select>
+              </fieldset>
             </div>
 
             {/* textarea field */}
@@ -240,18 +379,16 @@ const DoctorForm = () => {
               <textarea
                 name="bio"
                 rows={3}
-                value={formData.bio}
-                onChange={handleChange}
                 required
-                className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                 placeholder="Briefly describe your professional background and approach to patient care"
               />
             </div>
           </div>
 
           {/* Professional Details Section */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-medium text-gray-900 border-b pb-2">
+          <div className="space-y-6">
+            <h3 className="text-xl font-semibold text-gray-900 border-b border-gray-200 pb-3">
               Professional Information
             </h3>
 
@@ -267,10 +404,8 @@ const DoctorForm = () => {
                 <input
                   type="text"
                   name="licenseNumber"
-                  value={formData.licenseNumber}
-                  onChange={handleChange}
                   required
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                   placeholder="BMDC-12345"
                 />
               </div>
@@ -286,12 +421,10 @@ const DoctorForm = () => {
                 <input
                   type="number"
                   name="yearsOfExperience"
-                  value={formData.yearsOfExperience}
-                  onChange={handleChange}
                   min="0"
                   max="50"
                   required
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                   placeholder="10"
                 />
               </div>
@@ -308,10 +441,8 @@ const DoctorForm = () => {
                 </label>
                 <select
                   name="medicalDegree"
-                  value={formData.medicalDegree}
-                  onChange={handleChange}
                   required
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                 >
                   <option value="">Select degree</option>
                   <option value="MBBS">MBBS</option>
@@ -334,10 +465,8 @@ const DoctorForm = () => {
                 </label>
                 <select
                   name="specialty"
-                  value={formData.specialty}
-                  onChange={handleChange}
                   required
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                 >
                   <option value="">Select specialty</option>
                   {specialties.map((spec) => (
@@ -361,10 +490,8 @@ const DoctorForm = () => {
                 <input
                   type="text"
                   name="currentHospital"
-                  value={formData.currentHospital}
-                  onChange={handleChange}
                   required
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                   placeholder="Dhaka Medical College Hospital"
                 />
               </div>
@@ -380,9 +507,7 @@ const DoctorForm = () => {
                 <input
                   type="text"
                   name="hospitalAffiliation"
-                  value={formData.hospitalAffiliation}
-                  onChange={handleChange}
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                   placeholder="Square Hospital, Apollo Clinic"
                 />
               </div>
@@ -400,12 +525,10 @@ const DoctorForm = () => {
                 <input
                   type="number"
                   name="patientPerDay"
-                  value={formData.patientPerDay}
-                  onChange={handleChange}
                   min="1"
                   max="100"
                   required
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
                   placeholder="30"
                 />
               </div>
@@ -416,24 +539,37 @@ const DoctorForm = () => {
                   htmlFor="consultationHours"
                   className="block  font-medium text-gray-700"
                 >
-                  Consultation Hours *
+                  Consultation Starting Hours * [Type international format like
+                  9 or 15 ]
                 </label>
                 <input
                   type="text"
-                  name="consultationHours"
-                  value={formData.consultationHours}
-                  onChange={handleChange}
+                  name="startingHours"
                   required
-                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md  py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="9:00 AM - 5:00 PM"
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md  py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
+                  placeholder="9"
+                />
+                <label
+                  htmlFor="consultationHours"
+                  className="block  font-medium text-gray-700"
+                >
+                  Consultation Ending Hours * [Type international format like 9
+                  or 15 ]
+                </label>
+                <input
+                  type="text"
+                  name="endingHours"
+                  required
+                  className="mt-1 text-sm block w-full border border-gray-300 rounded-md  py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black placeholder:text-gray-400"
+                  placeholder="15"
                 />
               </div>
             </div>
           </div>
 
           {/* Availability Section */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-medium text-gray-900 border-b pb-2">
+          <div className="space-y-6">
+            <h3 className="text-xl font-semibold text-gray-900 border-b border-gray-200 pb-3">
               Availability
             </h3>
 
@@ -446,10 +582,9 @@ const DoctorForm = () => {
                   <div key={day} className="flex items-center">
                     <input
                       type="checkbox"
-                      name="availableDays"
                       value={day}
-                      checked={formData.availableDays.includes(day)}
-                      onChange={handleChange}
+                      checked={selectedDays.includes(day)}
+                      onChange={handleCheckboxChange}
                       className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                     />
                     <label
@@ -464,42 +599,17 @@ const DoctorForm = () => {
             </div>
           </div>
 
-          {/* Profile Photo */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-medium text-gray-900 border-b pb-2">
-              Profile Photo
-            </h3>
-
-            <div>
-              <label className="block font-medium text-gray-700">
-                Upload Professional Photo
-              </label>
-              <div className="mt-1 flex items-center">
-                <input
-                  type="file"
-                  name="profilePhoto"
-                  onChange={handleChange}
-                  accept="image/*"
-                  className="py-2 px-3 border border-gray-300 rounded-md text-sm cursor-pointer"
-                />
-              </div>
-              <p className="mt-1 text-sm text-gray-500">
-                A professional headshot (JPEG or PNG, max 5MB)
-              </p>
-            </div>
-          </div>
-
           {/* Form Actions */}
-          <div className="flex justify-end space-x-4 pt-6">
+          <div className="flex justify-end space-x-4 pt-8">
             <button
               type="button"
-              className="px-4 py-2 border border-gray-300 rounded-md  text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 cursor-pointer"
+              className="px-6 py-3 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors duration-200"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 border border-transparent rounded-md  text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 cursor-pointer"
+              className="px-6 py-3 border border-transparent rounded-lg text-sm font-medium text-white bg-[#033137] hover:bg-[#005662] transition-colors duration-200"
             >
               Submit Request
             </button>

@@ -1,9 +1,19 @@
-/** @type {import('tailwindcss').Config} */
-export const content = [
-  "./app/**/*.{js,ts,jsx,tsx}",
-  "./components/**/*.{js,ts,jsx,tsx}",
-];
-export const theme = {
-  extend: {},
+// tailwind.config.js
+module.exports = {
+  content: [
+    // ... your existing content config
+  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ["var(--font-inter)", "sans-serif"],
+      },
+      images: {
+        domains: ["lh3.googleusercontent.com", "img.daisyui.com"],
+      },
+    },
+  },
+  plugins: [
+    // ... your existing plugins
+  ],
 };
-export const plugins = [];

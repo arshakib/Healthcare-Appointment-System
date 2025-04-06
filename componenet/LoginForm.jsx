@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import SocialLogin from "./SocialLogin";
 
+
 const LoginForm = () => {
   const router = useRouter();
   const handleSubmit = async (e) => {
@@ -57,7 +58,7 @@ const LoginForm = () => {
           Login
         </button>
       </form>
-      <SocialLogin />
+      <SocialLogin /> 
       <button className="btn w-full mt-4">
         Are you new this page please{" "}
         <Link className="text-red-500" href={"/register"}>
