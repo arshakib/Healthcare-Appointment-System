@@ -1,10 +1,3 @@
-// import { authOptions } from "@/app/lib/authOptions"
-// import NextAuth from "next-auth"
-
-// const handler = NextAuth(authOptions)
-
-// export { handler as GET, handler as POST }
-
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
@@ -50,37 +43,6 @@ export const authOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
-  // callbacks: {
-  //     async signIn({ user,account }) {
-  //         console.log(user,account)
-  //         await connectToDatabase();
-  //         if(account.provider === 'google'){
-  //             const {name,email,image} = user;
-  //             try {
-  //                 const res = await fetch('http://localhost:3000/api/register', {
-  //                     method: 'POST',
-  //                     headers: {
-  //                         'Content-Type': 'application/json'
-  //                     },
-  //                     body: JSON.stringify({
-  //                         name,email,image,role:'patient',password: ''
-  //                     })
-  //                 })
-  //                 if(res.ok){
-  //                     console.log("User registered successfully");
-  //                     return user
-  //                 }else{
-  //                     throw new Error("Failed to register user in MongoDB");
-  //                 }
-  //             } catch (error) {
-  //                 console.log("Error in sign-in callback:", error);
-  //             return null;
-  //             }
-  //         }
-  //         return user;
-  //     },
-
-  // },
 
   callbacks: {
     async signIn({ user, account }) {
