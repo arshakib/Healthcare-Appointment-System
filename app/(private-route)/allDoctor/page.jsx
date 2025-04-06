@@ -163,8 +163,7 @@ const DoctorsPage = () => {
             Find Your Doctor
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Book appointments with our highly qualified specialists. We have 6
-            doctors across 6 centers.
+            Book appointments with our highly qualified specialists.
           </p>
         </div>
 
