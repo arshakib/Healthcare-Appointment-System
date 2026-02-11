@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@google/genai": "^1.40.0",
     "@heroicons/react": "^2.2.0",
     "@syncfusion/ej2-base": "^29.1.36",
     "@syncfusion/ej2-react-calendars": "^29.1.35",

@@ -27,8 +27,13 @@ const Search = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ symptom: symptoms, area: area }),
+       body: JSON.stringify({
+  symptom: symptoms,
+  area: area
+})
       });
+
+      console.log(res);
 
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);

@@ -5,12 +5,14 @@ import Doctor from "@/models/doctor";
 
 export async function POST(req) {
   try {
+    console.log("GEMINI KEY EXISTS:", !!process.env.GEMINI_API_KEY);
+
     // Connect to the database
-    await connectToDatabase();
+    // await connectToDatabase();
     // Parse the JSON body
     const body = await req.json();
     const { symptom, area } = body;
-
+console.log("About to call Gemini API");
     if (!symptom || !area) {
       return new Response(
         JSON.stringify({ error: "No symptom or area provided" }),
@@ -20,16 +22,19 @@ export async function POST(req) {
       );
     }
 
+
+    console.log("Received symptom and area:", { symptom, area }); // For debugging
+
     // console.log({ symptom, area });
     // Construct the prompt
-    const prompt = `
-  Symptom: ${symptom}
-  Instructions: Provide a basic prescription and recommend which specialist doctor should be consulted.
-  Format the response as a JSON object with the following structure:
-  {
-    "prescription": "Recommended medication and dosage",
-    "specialist": "Select among these specialist 
- Allergy and Immunology,
+   const prompt = `
+Symptom: ${symptom}
+Instructions: Provide a basic prescription and recommend which specialist doctor should be consulted.
+Format the response as a JSON object with the following structure:
+{
+  "prescription": "Recommended medication and dosage",
+  "specialist": "Select one from these specialists: 
+Allergy and Immunology,
 Anesthesiology,
 Endocrinology,
 Gastroenterology,
@@ -38,15 +43,15 @@ Infectious Disease,
 Nephrology,
 Obstetrics and Gynecology (OB/GYN),
 Ophthalmology,
-Otolaryngology (ENT - Ear, Nose, and Throat),
+Otolaryngology (ENT),
 Pathology,
 Plastic Surgery,
-Pulmonology (Lung Specialist),
+Pulmonology,
 Radiology,
 Rheumatology,
 Sports Medicine,
 Urology,
-Geriatrics (Elderly Care),
+Geriatrics,
 Emergency Medicine,
 Pain Management,
 Sleep Medicine,
@@ -57,29 +62,51 @@ Pediatrics,
 Orthopedics,
 General Practice,
 Oncology,
-Psychiatry.
-any one specialist will be selected",
-  }
-  Disclaimer: This is for informational purposes only and not a substitute for professional medical advice.
+Psychiatry"
+}
+Disclaimer: This is for informational purposes only and not a substitute for professional medical advice.
 `;
 
-    // Make the request to the Gemini API
-    const apiResponse = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-        }),
-      }
-    );
+  // Make the request to Gemini API
+  const apiResponse = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-goog-api-key": process.env.GEMINI_API_KEY, // Correct header
+      },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+      }),
+    }
+  );
 
-    if (!apiResponse.ok) {
-      throw new Error("Error communicating with Gemini API");
+  // Check if the response is OK
+  if (!apiResponse.ok) {
+    const errorText = await apiResponse.text();
+    console.error("Gemini Error:", errorText);
+    throw new Error("Error communicating with Gemini API");
+  }
+
+  if (apiResponse.status === 429) {
+      throw new Error(
+        "Quota exceeded for Gemini API. Please check your plan or retry later."
+      );
     }
 
+  // Parse the JSON response
+  // const data = await apiResponse.json();
+  // console.log("Gemini API Data:", data);
+
+  // // Extract the text output from the API response
+  // const aiOutput = data?.candidates?.[0]?.content?.[0]?.text;
+  // console.log("AI Output:", aiOutput);
+
+
+
     const data = await apiResponse.json();
+    console.log("API Response Data:", data); // For debugging
     const content = data.candidates?.[0]?.content?.parts?.[0]?.text;
     console.log(content);
 
