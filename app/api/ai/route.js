@@ -95,14 +95,6 @@ Disclaimer: This is for informational purposes only and not a substitute for pro
       );
     }
 
-  // Parse the JSON response
-  // const data = await apiResponse.json();
-  // console.log("Gemini API Data:", data);
-
-  // // Extract the text output from the API response
-  // const aiOutput = data?.candidates?.[0]?.content?.[0]?.text;
-  // console.log("AI Output:", aiOutput);
-
 
 
     const data = await apiResponse.json();
